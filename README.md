@@ -1,6 +1,6 @@
 # Masterpiece
 
-[![Elixir CI](https://github.com/awwar/masterpiece/actions/workflows/elixir.yml/badge.svg)](https://github.com/awwar/masterpiece/actions/workflows/elixir.yml)
+[![Elixir CI](https://github.com/awwar/masterpiece/actions/workflows/elixir.yml/badge.svg?branch=main)](https://github.com/awwar/masterpiece/actions/workflows/elixir.yml)
 ![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
 
 ***WORK IN PROGRESS!!! Do not ready for production usage!!!***
