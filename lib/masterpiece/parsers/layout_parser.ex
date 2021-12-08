@@ -14,8 +14,8 @@ defmodule LayoutParser do
             layout_name: String.to_atom(layout_name),
             endpoints: EndpointParser.parse(endpoints),
             nodes: NodeParser.parse(nodes),
-            sockets: SocketParser.parse(sockets)
-            #            map: MapParser.parse(map),
+            sockets: SocketParser.parse(sockets),
+            map: MapParser.parse(map),
         }
     end
 

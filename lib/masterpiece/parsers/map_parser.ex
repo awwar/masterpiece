@@ -3,10 +3,11 @@ defmodule MapParser do
         Enum.map(
             map,
             fn
-                {name, context} -> do_parse(name, context)
+                {id, value} -> do_parse(id, value)
             end
         )
-    defp do_parse(name, %{"scope" => scope, "options" => options}), do: ScopeParser.parse(name, scope, options)
-
-#    defp do_parse(node_name, context), do: NodeSocketParser.parse(node_name, context)
+    defp do_parse(id, value) when is_list(value), do:
+        %Types.LogicConnection{from_id: id, condition: LogicConditionParser.parse(value)}
+    defp do_parse(id, value) when is_binary(value), do:
+        %Types.LogicConnection{from_id: id, default: value}
 end

@@ -85,25 +85,16 @@
                         path:
                             - result
     map:
-        07de3b6e-9fc9-48d5-ae57-1946805e3414:
-            to:
-                - 354b7c91-fd98-49ff-aaa7-f8db2b015624
+        07de3b6e-9fc9-48d5-ae57-1946805e3414: 354b7c91-fd98-49ff-aaa7-f8db2b015624
+        55f42207-fdc5-4ac2-8b0b-c66c5891c917: 0b97b15e-bc25-4bed-ac87-ae24691c4eb3
         354b7c91-fd98-49ff-aaa7-f8db2b015624:
-            false:
-                - 55f42207-fdc5-4ac2-8b0b-c66c5891c917
-                - 0b97b15e-bc25-4bed-ac87-ae24691c4eb3
-            true:
-                - 42d18110-f2d7-40d7-85d3-516887b96b33
-                - a278e9d6-29a8-4a92-8cbc-310d6c83d147
-        42d18110-f2d7-40d7-85d3-516887b96b33:
-            to:
-                - a278e9d6-29a8-4a92-8cbc-310d6c83d147
+            - {condition: false, id: 55f42207-fdc5-4ac2-8b0b-c66c5891c917}
+            - {condition: true, id: 42d18110-f2d7-40d7-85d3-516887b96b33}
+        42d18110-f2d7-40d7-85d3-516887b96b33: a278e9d6-29a8-4a92-8cbc-310d6c83d147
+        2ae14221-ff76-4c66-872c-e90339814b8b: 7b017874-9772-497f-9032-c4e289d74ae9
         a278e9d6-29a8-4a92-8cbc-310d6c83d147:
-            false:
-                - 2ae14221-ff76-4c66-872c-e90339814b8b
-                - 7b017874-9772-497f-9032-c4e289d74ae9
-            true:
-                - 65c4e818-46d2-4868-83fd-c7b21989ef8b
+            - {condition: false, id: 7b017874-9772-497f-9032-c4e289d74ae9}
+            - {condition: true, id: 65c4e818-46d2-4868-83fd-c7b21989ef8b}
     nodes:
         node_addition_1:
             option: { }
