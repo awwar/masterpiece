@@ -1,11 +1,7 @@
 defmodule MapToGraph do
-    def execute(map) do
-        g = Graph.new()
-        Enum.map_reduce(map, g, fn x, acc -> {x, do_work(x, acc)} end)
+    def execute(map), do:
+        Enum.map_reduce(map, Graph.new(), fn x, acc -> {x, do_work(x, acc)} end)
         |> then(fn {_, g} -> g end)
-
-
-    end
 
     defp do_work(
              %Types.LogicConnection{
