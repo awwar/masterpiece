@@ -1,5 +1,6 @@
 Masterpiece.get_data
-|> Jason.decode!
-|> LayoutParser.parse
-|> AppCompiler.compile
-#
+|> RawConfigParser.parse("json")
+|> IO.inspect
+#|> Jason.decode!
+#|> LayoutParser.parse
+#|> AppCompiler.compile

@@ -1,3 +1,3 @@
 defmodule Types.Scope do
-    defstruct [:name, :scope, :options]
+    defstruct [:id, :scope, :options]
 end

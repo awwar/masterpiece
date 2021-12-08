@@ -1,3 +1,3 @@
 defmodule Types.NodeInput do
-    defstruct [:name, :path]
+    defstruct [:type, :name, path: []]
 end

@@ -11,12 +11,15 @@ defmodule Mix.Tasks.Mtp.Compile do
             {:ok, content} = Path.join(File.cwd!(), path)
                              |> File.read()
 
-            content
-            |> Jason.decode!
-            |> LayoutParser.parse
-            |> AppCompiler.compile
+            "." <> extension = Path.extname(path)
 
-            IEx.Helpers.recompile(force: true)
+            content
+            |> RawConfigParser.parse(extension)
+            |> LayoutParser.parse
+            |> IO.inspect
+#            |> AppCompiler.compile
+#
+#            IEx.Helpers.recompile(force: true)
         else
             _ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
         end

@@ -1,13 +1,10 @@
 defmodule ConditionParser do
-    def parse(cond) when is_binary(cond) or is_boolean(cond) or is_number(cond), do: cond
+    def parse(cond) when is_binary(cond) or is_boolean(cond) or is_number(cond), do:
+        %Types.Condition{left: cond}
 
-    def parse(%{"name" => _, "path" => _} = context), do:
-        CompilerHelper.create_argument_variable(NodeSocketParser.parse_input(context))
-
-    def parse(%{"name" => name}), do:
-        CompilerHelper.create_argument_variable(NodeSocketParser.parse_input(name))
+    def parse(%{"name" => _, "path" => _} = context), do: NodeInputParser.parse(context)
 
     def parse([left, method, right])
         when method in ["===", ">", "<", ">=", "<=", "/", "*", "+", "-", "^"], do:
-            {String.to_atom(method), [], [parse(left), parse(right)]}
+            %Types.Condition{left: parse(left), method: method, right: parse(right)}
 end

@@ -8,5 +8,5 @@ defmodule MapParser do
         )
     defp do_parse(name, %{"scope" => scope, "options" => options}), do: ScopeParser.parse(name, scope, options)
 
-    defp do_parse(node_name, context), do: NodeSocketParser.parse(node_name, context)
+#    defp do_parse(node_name, context), do: NodeSocketParser.parse(node_name, context)
 end

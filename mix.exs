@@ -23,6 +23,7 @@ defmodule Masterpiece.MixProject do
     defp deps do
         [
             {:jason, "~> 1.2"},
+            {:yaml_elixir, "~> 2.8"},
             {:plug_cowboy, "~> 2.0"},
             {:plug, "~> 1.10"},
         ]

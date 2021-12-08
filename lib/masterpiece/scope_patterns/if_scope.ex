@@ -15,11 +15,9 @@ defmodule ScopePatterns.IfScope do
         end
     end
 
-    def parse_options(%{"true" => true_map, "condition" => cond, "false" => false_map}) do
+    def parse_options(%{"condition" => cond}) do
         %{
-            condition: ConditionParser.parse(cond),
-            true: MapParser.parse(true_map),
-            false: MapParser.parse(false_map),
+            condition: ConditionParser.parse(cond)
         }
     end
 
