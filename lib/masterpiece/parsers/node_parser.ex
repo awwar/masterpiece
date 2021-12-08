@@ -14,7 +14,7 @@ defmodule NodeParser do
             String.to_atom(name),
             %{
                 pattern: node_pattern,
-                option: options,
+                option: node_pattern.parse_options(options),
             }
         }
     end

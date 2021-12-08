@@ -1,11 +1,11 @@
 defmodule LayoutCompiler do
-    def compile(%{layout_name: layout_name, nodes: nodes, map: map}) do
+    def compile(%{layout_name: layout_name, nodes: nodes, map: map, sockets: sockets}) do
         Enum.each(
             nodes,
             fn {name, context} -> NodeCompiler.compile(name, context) end
         )
 
-        runner_content = RunnerContentCompiler.compile(map)
+        runner_content = RunnerContentCompiler.compile(sockets, map)
         conn = {:conn, [], nil}
 
         module_content = quote do

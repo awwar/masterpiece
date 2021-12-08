@@ -1,5 +1,6 @@
 defmodule NodePatterns.HttpOutputNode do
     @behaviour Behaviors.MapEntity
+    @encodes ["json", "text"]
 
     alias Types.NodeConfig
 
@@ -15,7 +16,9 @@ defmodule NodePatterns.HttpOutputNode do
         }
     end
 
-    def get_content(%{encode: resolver}) do
+    def get_content(%{encode: encode}) do
+        resolver = get_resolver(encode)
+
         quote do
             def execute(conn, result) do
                 conn
@@ -27,13 +30,20 @@ defmodule NodePatterns.HttpOutputNode do
 
     def parse_options(
             %{
-                "encode" => encode
+                "encode" => resolver
             }
-        ) do
+        ) when resolver in @encodes do
         %{
-            encode: get_resolver(encode)
+            encode: resolver
         }
     end
+    def parse_options(
+            %{
+                "encode" => resolver
+            }
+        ), do: raise "Undefined resolver '#{resolver}}'!"
+
+    def parse_options(_), do: raise "Unexpected options!"
 
     defp get_resolver("json") do
         quote do: Jason.encode!(result)

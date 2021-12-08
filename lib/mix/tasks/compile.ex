@@ -16,6 +16,7 @@ defmodule Mix.Tasks.Mtp.Compile do
             parsed_layout = content
             |> RawConfigParser.parse(extension)
             |> LayoutParser.parse
+            |> AppCompiler.compile
 
 
 

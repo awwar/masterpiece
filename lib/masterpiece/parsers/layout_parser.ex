@@ -16,10 +16,9 @@ defmodule LayoutParser do
             layout_name: String.to_atom(layout_name),
             endpoints: EndpointParser.parse(endpoints),
             nodes: NodeParser.parse(nodes),
-            sockets: SocketParser.parse(sockets),
             map: parsed_map,
             graph: graph,
-            root: Graph.arborescence_root(graph)
+            sockets: SocketParser.parse(sockets, Graph.postorder(graph) |> Enum.reverse()),
         }
     end
 

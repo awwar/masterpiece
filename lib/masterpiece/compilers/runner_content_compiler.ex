@@ -2,8 +2,8 @@ defmodule RunnerContentCompiler do
     alias Types.NodeSocket
     alias Types.Scope
 
-    def compile(map) do
-        NodeSorter.sort(map)
+    def compile(sockets, map) do
+        sockets
         |> Enum.map(
                fn
                    %NodeSocket{} = node -> get_node_resolver(node)
