@@ -13,13 +13,15 @@ defmodule Mix.Tasks.Mtp.Compile do
 
             "." <> extension = Path.extname(path)
 
-            content
+            parsed_layout = content
             |> RawConfigParser.parse(extension)
             |> LayoutParser.parse
-            |> IO.inspect
-#            |> AppCompiler.compile
-#
-#            IEx.Helpers.recompile(force: true)
+
+
+            MapToGraph.execute(List.first(parsed_layout).map)
+            |> Graph.Serializers.DOT.serialize()
+            |> then(fn {:ok, data} -> data end)
+            |> IO.puts()
         else
             _ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
         end
