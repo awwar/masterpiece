@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Mtp.Compile do
 
             "." <> extension = Path.extname(path)
 
-            parsed_layout = content
+            content
             |> RawConfigParser.parse(extension)
             |> LayoutParser.parse
             |> AppCompiler.compile

@@ -1,21 +1,10 @@
 defmodule ScopePatterns.IfScope do
     def get_content(
             %{
-                condition: %Types.Condition{
-                    left: left,
-                    method: method,
-                    right: right
-                },
+                condition: condition,
             }
         ) do
-        cond = case method do
-            nil -> {:===, [], [left, left]}
-            method -> {":" <> method, [], [left, right]}
-        end
-
-        quote do
-            {unquote(cond), {}}
-        end
+        ConditionCompiler.compile(condition)
     end
 
     def parse_options(%{"condition" => cond}) do
