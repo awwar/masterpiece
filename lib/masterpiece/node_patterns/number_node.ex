@@ -17,7 +17,7 @@ defmodule NodePatterns.NumberNode do
 
     def get_content(%{value: value}) do
         quote do
-            def execute(), do: %{result: unquote(value)}
+            def execute(), do: {:default, %{result: unquote(value)}}
         end
     end
 

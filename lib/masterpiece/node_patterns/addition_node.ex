@@ -17,7 +17,7 @@ defmodule NodePatterns.AdditionNode do
 
     def get_content(_) do
         quote do
-            def execute(a, b) when is_number(a) and is_number(b), do: %{result: a + b}
+            def execute(a, b) when is_number(a) and is_number(b), do: {:default, %{result: a + b}}
             def execute(a, b), do: execute(NumberParser.parse(a), NumberParser.parse(b))
         end
     end

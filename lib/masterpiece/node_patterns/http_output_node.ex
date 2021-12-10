@@ -24,6 +24,7 @@ defmodule NodePatterns.HttpOutputNode do
                 conn
                 |> Plug.Conn.resp(200, unquote(resolver))
                 |> Plug.Conn.send_resp()
+                |> then(&{:default, &1})
             end
         end
     end

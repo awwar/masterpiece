@@ -1,3 +1,3 @@
-defmodule Types.Scope do
+defmodule Types.ScopeSocket do
     defstruct [:id, :scope, :options]
 end

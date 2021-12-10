@@ -15,7 +15,7 @@ defmodule NodeSorter do
         do: acc ++ pull(inputs, acc)
 
     def pull(
-            %Types.Scope{
+            %Types.ScopeSocket{
                 scope: scope,
                 options: options
             },

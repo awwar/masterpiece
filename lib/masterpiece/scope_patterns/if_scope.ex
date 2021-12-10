@@ -1,17 +1,20 @@
 defmodule ScopePatterns.IfScope do
     def get_content(
             %{
-                condition: cond,
-                true: true_map,
-                false: false_map,
+                condition: %Types.Condition{
+                    left: left,
+                    method: method,
+                    right: right
+                },
             }
         ) do
+        cond = case method do
+            nil -> {:===, [], [left, left]}
+            method -> {":" <> method, [], [left, right]}
+        end
+
         quote do
-            if(unquote(cond)) do
-                unquote({:__block__, [], RunnerContentCompiler.compile(true_map)})
-            else
-                unquote({:__block__, [], RunnerContentCompiler.compile(false_map)})
-            end
+            {unquote(cond), {}}
         end
     end
 

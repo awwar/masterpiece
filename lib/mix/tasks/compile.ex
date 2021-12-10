@@ -18,12 +18,7 @@ defmodule Mix.Tasks.Mtp.Compile do
             |> LayoutParser.parse
             |> AppCompiler.compile
 
-
-
-#            List.first(parsed_layout).graph
-#            |> Graph.Serializers.DOT.serialize()
-#            |> then(fn {:ok, data} -> data end)
-#            |> IO.puts()
+            IEx.Helpers.recompile(force: true)
         else
             _ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
         end

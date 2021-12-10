@@ -6,8 +6,8 @@ defmodule ScopePatterns.ThenScope do
             }
         ) do
         quote do
-            unquote({:__block__, [], RunnerContentCompiler.compile(left_map)})
-            unquote({:__block__, [], RunnerContentCompiler.compile(right_map)})
+            unquote({:__block__, [], RunnerContentCompiler.compile(left_map, [])})
+            unquote({:__block__, [], RunnerContentCompiler.compile(right_map, [])})
         end
     end
 

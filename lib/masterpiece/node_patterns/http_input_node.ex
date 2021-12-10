@@ -17,9 +17,12 @@ defmodule NodePatterns.HttpInputNode do
     def get_content(_) do
         quote do
             def execute(conn) do
-                %{
-                    query: Plug.Conn.Query.decode(conn.query_string),
-                    body: conn.body_params
+                {
+                    :default,
+                    %{
+                        query: Plug.Conn.Query.decode(conn.query_string),
+                        body: conn.body_params
+                    }
                 }
             end
         end
