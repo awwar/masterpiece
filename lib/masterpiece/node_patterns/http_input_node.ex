@@ -18,7 +18,7 @@ defmodule NodePatterns.HttpInputNode do
         quote do
             def execute(conn) do
                 {
-                    :default,
+                    true,
                     %{
                         query: Plug.Conn.Query.decode(conn.query_string),
                         body: conn.body_params

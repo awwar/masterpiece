@@ -73,7 +73,7 @@
             type: node
             settings:
                 input: { }
-                node: number_node_1
+                node: number_node_2
         65c4e818-46d2-4868-83fd-c7b21989ef8b:
             type: node
             settings:
