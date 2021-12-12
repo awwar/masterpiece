@@ -1,49 +1,61 @@
 defmodule NodePatterns.HttpOutputNode do
-    @behaviour Behaviors.MapEntity
+	@behaviour Behaviors.MapEntity
+	@encodes ["json", "text"]
 
-    alias Types.NodeConfig
+	alias Types.NodeConfig
 
-    def get_config do
-        %NodeConfig{
-            input: %{
-                conn: :obj,
-                result: :any
-            },
-            option: %{
-                encode: :string
-            }
-        }
-    end
+	def get_config do
+		%NodeConfig{
+			input: %{
+				conn: :obj,
+				result: :any
+			},
+			option: %{
+				encode: :string
+			}
+		}
+	end
 
-    def get_content(%{encode: resolver}) do
-        quote do
-            def execute(conn, result) do
-                conn
-                |> Plug.Conn.resp(200, unquote(resolver))
-                |> Plug.Conn.send_resp()
-            end
-        end
-    end
+	def get_content(%{encode: encode}) do
+		resolver = get_resolver(encode)
 
-    def parse_options(
-            %{
-                "encode" => encode
-            }
-        ) do
-        %{
-            encode: get_resolver(encode)
-        }
-    end
+		quote do
+			def execute(conn, result) do
+				conn
+				|> Plug.Conn.resp(200, unquote(resolver))
+				|> Plug.Conn.send_resp()
+				|> then(&{true, &1})
+			end
+		end
+	end
 
-    defp get_resolver("json") do
-        quote do: Jason.encode!(result)
-    end
+	def parse_options(
+			%{
+				"encode" => resolver
+			}
+		) when resolver in @encodes do
+		%{
+			encode: resolver
+		}
+	end
 
-    defp get_resolver("text") do
-        quote do: "#{result}"
-    end
+	def parse_options(
+			%{
+				"encode" => resolver
+			}
+		), do: raise "Undefined resolver '#{resolver}}'!"
 
-    defp get_resolver(resolver) do
-        raise "Undefined resolver '#{resolver}}'!"
-    end
+	def parse_options(_), do: raise "Unexpected options!"
+
+	defp get_resolver("json") do
+		quote do: Jason.encode!(result)
+	end
+
+	defp get_resolver("text") do
+		quote do: "#{result}"
+	end
+
+	defp get_resolver(resolver) do
+		raise "Undefined resolver '#{resolver}}'!"
+	end
 end

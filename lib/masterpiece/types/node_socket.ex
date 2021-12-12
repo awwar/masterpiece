@@ -1,3 +1,3 @@
 defmodule Types.NodeSocket do
-    defstruct [:name, :inputs]
+	defstruct [:id, :name, :inputs]
 end

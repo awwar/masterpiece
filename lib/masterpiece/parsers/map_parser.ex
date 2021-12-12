@@ -1,12 +1,21 @@
 defmodule MapParser do
-    def parse(map), do:
-        Enum.map(
-            map,
-            fn
-                {name, context} -> do_parse(name, context)
-            end
-        )
-    defp do_parse(name, %{"scope" => scope, "options" => options}), do: ScopeParser.parse(name, scope, options)
+	alias Types.SocketReference
+	alias Types.LogicConnection
 
-    defp do_parse(node_name, context), do: NodeSocketParser.parse(node_name, context)
+	def parse(map), do:
+		Enum.map(
+			map,
+			fn
+				{id, value} -> do_parse(id, value)
+			end
+		)
+		|> List.flatten()
+	defp do_parse(id, conditions) when is_list(conditions), do:
+		Enum.map(
+			conditions,
+			&%LogicConnection{
+				from_id: SocketReference.from_binary(id),
+				condition: LogicConditionParser.parse(&1)
+			}
+		)
 end

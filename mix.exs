@@ -22,7 +22,9 @@ defmodule Masterpiece.MixProject do
     # Run "mix help deps" to learn about dependencies.
     defp deps do
         [
+            {:libgraph, "~> 0.13.3"},
             {:jason, "~> 1.2"},
+            {:yaml_elixir, "~> 2.8"},
             {:plug_cowboy, "~> 2.0"},
             {:plug, "~> 1.10"},
         ]
