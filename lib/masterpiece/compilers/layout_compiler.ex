@@ -6,6 +6,7 @@ defmodule LayoutCompiler do
 		)
 
 		runner_content = RunnerContentCompiler.compile(sockets, map)
+
 		conn = Macro.var(:conn, nil)
 
 		module_content = quote do

@@ -12,6 +12,7 @@ defmodule LayoutParser do
 		 ) do
 		parsed_map = MapParser.parse(map)
 		graph = MapToGraph.execute(parsed_map)
+
 		%{
 			layout_name: String.to_atom(layout_name),
 			endpoints: EndpointParser.parse(endpoints),
