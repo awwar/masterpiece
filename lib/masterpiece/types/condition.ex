@@ -1,3 +1,3 @@
 defmodule Types.Condition do
-    defstruct [:value]
+	defstruct [:value]
 end

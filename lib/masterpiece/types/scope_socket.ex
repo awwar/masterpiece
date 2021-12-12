@@ -1,3 +1,3 @@
 defmodule Types.ScopeSocket do
-    defstruct [:id, :scope, :options]
+	defstruct [:id, :scope, :options]
 end
