@@ -1,12 +1,12 @@
 defmodule SocketParser do
     def parse(map, order) do
         parsed_map = Enum.map(
-            map,
-            fn
-                {id, context} -> {id, do_parse(id, context)}
-            end
-        )
-        |> Map.new
+                         map,
+                         fn
+                             {id, context} -> {id, do_parse(id, context)}
+                         end
+                     )
+                     |> Map.new
 
         Enum.map(
             order,

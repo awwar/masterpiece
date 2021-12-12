@@ -16,12 +16,12 @@ defmodule LayoutCompiler do
             defp execute(unquote(conn)), do: unquote(runner_content)
         end
 
-#                IO.inspect Macro.validate(runner_content)
+        #                IO.inspect Macro.validate(runner_content)
 
-#                IO.inspect module_content
+        #                IO.inspect module_content
 
         #        IO.puts Macro.to_string(module_content)
-#                exit(0)
+        #                exit(0)
 
 
         {:ok, file} = File.open(File.cwd!() <> "/generates/" <> Atom.to_string(layout_name) <> ".ex", [:write])

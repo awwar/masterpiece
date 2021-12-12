@@ -5,6 +5,6 @@ path = "./layouts.yaml"
 "." <> extension = Path.extname(path)
 
 content
-    |> RawConfigParser.parse(extension)
-    |> LayoutParser.parse
-    |> AppCompiler.compile
+|> RawConfigParser.parse(extension)
+|> LayoutParser.parse
+|> AppCompiler.compile

@@ -18,7 +18,11 @@ defmodule LayoutParser do
             nodes: NodeParser.parse(nodes),
             map: parsed_map,
             graph: graph,
-            sockets: SocketParser.parse(sockets, Graph.postorder(graph) |> Enum.reverse()),
+            sockets: SocketParser.parse(
+                sockets,
+                Graph.postorder(graph)
+                |> Enum.reverse()
+            ),
         }
     end
 
