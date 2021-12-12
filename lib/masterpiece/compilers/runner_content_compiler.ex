@@ -8,7 +8,7 @@ defmodule RunnerContentCompiler do
         get_node_resolver(root, map, sockets)
     end
 
-    defp get_node_resolver([], map, sockets) do
+    defp get_node_resolver([], _, _) do
         nil
     end
 
@@ -27,7 +27,8 @@ defmodule RunnerContentCompiler do
         next_nodes_resolver = get_next(id, map, sockets)
                               |> Enum.map(fn {f, n} -> {f, get_node_resolver(n, map, sockets)} end)
 
-        next_nodes_resolver = if next_nodes_resolver === [], do: [{{:_, [], nil}, node_state_variable}], else: next_nodes_resolver
+        next_nodes_resolver = if next_nodes_resolver === [],
+                                 do: [{{:_, [], nil}, node_state_variable}], else: next_nodes_resolver
 
 
         new_args = Enum.map(inputs, &CompilerHelper.create_argument_variable(&1))
@@ -37,7 +38,7 @@ defmodule RunnerContentCompiler do
             {ctrl_code, unquote(node_state_variable)} = unquote(node_call)
 
             case ctrl_code do
-                 unquote(Enum.map(next_nodes_resolver, fn {f, n} -> {:->, [], [[f], n]} end))
+                unquote(Enum.map(next_nodes_resolver, fn {f, n} -> {:->, [], [[f], n]} end))
             end
         end
     end
@@ -50,9 +51,7 @@ defmodule RunnerContentCompiler do
 
         node_call = scope.get_content(options)
         quote do
-            {ctrl_code, _} = unquote(node_call)
-
-            case ctrl_code do
+            case unquote(node_call) do
                 unquote(Enum.map(next_nodes_resolver, fn {f, n} -> {:->, [], [[f], n]} end))
             end
         end
@@ -63,15 +62,13 @@ defmodule RunnerContentCompiler do
         |> Enum.map(
                fn
                    %Types.LogicConnection{
-                       default: nil,
-                       condition: %_{
+                       condition: %Types.LogicCondition{
                            to_id: to_id,
-                            condition: %Types.Condition{left: left}
+                           condition: %Types.Condition{
+                               value: value
+                           }
                        }
-                   } -> {left, Enum.find(sockets, fn %_{id: id} -> id.id == to_id.id end)}
-                   %Types.LogicConnection{
-                       default: to_id
-                   } -> {true, Enum.find(sockets, fn %_{id: id} -> id.id == to_id.id end)}
+                   } -> {value, Enum.find(sockets, fn %_{id: id} -> id.id == to_id.id end)}
                    nil -> {nil, nil}
                end
            )

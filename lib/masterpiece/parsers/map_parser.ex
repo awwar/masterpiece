@@ -1,4 +1,7 @@
 defmodule MapParser do
+    alias Types.SocketReference
+    alias Types.LogicConnection
+
     def parse(map), do:
         Enum.map(
             map,
@@ -8,8 +11,11 @@ defmodule MapParser do
         )
         |> List.flatten()
     defp do_parse(id, conditions) when is_list(conditions), do:
-        Enum.map(conditions, &%Types.LogicConnection{from_id: %Types.SocketReference{id: id}, condition: LogicConditionParser.parse(&1)})
-
-    defp do_parse(id, value) when is_binary(value), do:
-        %Types.LogicConnection{from_id: %Types.SocketReference{id: id}, default: %Types.SocketReference{id: value}}
+        Enum.map(
+            conditions,
+            &%LogicConnection{
+                from_id: SocketReference.from_binary(id),
+                condition: LogicConditionParser.parse(&1)
+            }
+        )
 end

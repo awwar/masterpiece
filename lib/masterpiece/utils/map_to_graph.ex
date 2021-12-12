@@ -5,25 +5,13 @@ defmodule MapToGraph do
 
     defp do_work(
              %Types.LogicConnection{
-                 from_id: %_{
+                 from_id: %Types.SocketReference{
                      id: from_id
                  },
-                 default: nil,
                  condition: %Types.LogicCondition{
-                     to_id: %_{
+                     to_id: %Types.SocketReference{
                          id: to_id
                      }
-                 }
-             },
-             g
-         ), do: Graph.add_edge(g, from_id, to_id)
-    defp do_work(
-             %Types.LogicConnection{
-                 from_id: %_{
-                     id: from_id
-                 },
-                 default: %_{
-                     id: to_id
                  }
              },
              g
