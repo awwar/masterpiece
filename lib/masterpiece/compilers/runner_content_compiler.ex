@@ -56,7 +56,8 @@ defmodule RunnerContentCompiler do
 
 		node_call = scope.get_content(options)
 		quote do
-			case unquote(node_call) do
+			ctrl_code = unquote(node_call)
+			case ctrl_code do
 				unquote(Enum.map(next_nodes_resolver, fn {f, n} -> {:->, [], [[f], n]} end))
 			end
 		end

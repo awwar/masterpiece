@@ -1,13 +1,13 @@
 defmodule CompilerHelper do
 	def get_node_result_variable(%Types.NodeReference{name: node_name}) do
 		node_name
-		|> then(&String.to_atom("#{&1}_result"))
+		|> then(&to_atom("#{&1}_result"))
 		|> Macro.var(nil)
 	end
 
 	def get_node_result_variable(node_name) when is_atom(node_name) do
 		node_name
-		|> then(&String.to_atom("#{&1}_result"))
+		|> then(&to_atom("#{&1}_result"))
 		|> Macro.var(nil)
 	end
 
@@ -19,4 +19,8 @@ defmodule CompilerHelper do
 
 	def create_argument_variable(%Types.NodeInput{type: :object, name: object_name}) when is_atom(object_name),
 		do: Macro.var(object_name, nil)
+
+	def to_atom(name) when is_atom(name), do: name
+
+	def to_atom(name), do: String.to_atom(name)
 end

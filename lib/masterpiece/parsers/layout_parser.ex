@@ -14,7 +14,7 @@ defmodule LayoutParser do
 		graph = MapToGraph.execute(parsed_map)
 
 		%{
-			layout_name: String.to_atom(layout_name),
+			layout_name: CompilerHelper.to_atom(layout_name),
 			endpoints: EndpointParser.parse(endpoints),
 			nodes: NodeParser.parse(nodes),
 			map: parsed_map,

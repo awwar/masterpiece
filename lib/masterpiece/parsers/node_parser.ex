@@ -11,7 +11,7 @@ defmodule NodeParser do
 		node_pattern = NodePatternFactory.create(node_pattern_name)
 
 		{
-			String.to_atom(name),
+			CompilerHelper.to_atom(name),
 			%{
 				pattern: node_pattern,
 				option: node_pattern.parse_options(options),
