@@ -17,8 +17,16 @@ defmodule CompilerHelper do
 			unquote(out)
 		)
 
-	def create_argument_variable(%Types.NodeInput{type: :object, name: object_name}) when is_atom(object_name),
-		do: Macro.var(object_name, nil)
+	def create_argument_variable(%Types.NodeInput{type: :object, name: object_name, path: []})
+		when is_atom(object_name), do:
+			Macro.var(object_name, nil)
+
+	def create_argument_variable(%Types.NodeInput{type: :object, name: object_name, path: out})
+		when is_atom(object_name), do:
+			quote do: ExtendMap.get_in!(
+				unquote(Macro.var(object_name, nil)),
+				unquote(out)
+			)
 
 	def to_atom(name) when is_atom(name), do: name
 

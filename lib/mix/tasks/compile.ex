@@ -15,10 +15,10 @@ defmodule Mix.Tasks.Mtp.Compile do
 
 			content
 			|> RawConfigParser.parse(extension)
-			|> LayoutParser.parse
-			|> AppCompiler.compile
+			|> FlowParser.parse
+			|> Enum.map(&FlowCompiler.compile(&1))
 
-			IEx.Helpers.recompile(force: true)
+#			IEx.Helpers.recompile(force: true)
 		else
 			_ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
 		end

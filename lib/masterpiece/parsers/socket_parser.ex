@@ -8,12 +8,7 @@ defmodule SocketParser do
 					 )
 					 |> Map.new
 
-		Enum.map(
-			order,
-			fn
-				id -> parsed_map[id]
-			end
-		)
+		Enum.map(order, &parsed_map[&1])
 	end
 	defp do_parse(
 			 id,
