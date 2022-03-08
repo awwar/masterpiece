@@ -12,18 +12,18 @@ defmodule FlowParser do
 			 }
 		 ) do
 		parsed_map = MapParser.parse(map)
-		graph = MapToGraph.execute(parsed_map)
+		ordered_sockets = parsed_map
+							 |> MapToGraph.execute()
+							 |> Graph.postorder
+							 |> Enum.reverse()
+							 |> Enum.map(&{&1, sockets[&1]})
 
 		%{
 			flow_name: CompilerHelper.to_atom(flow_name),
 			nodes: NodeParser.parse(nodes),
 			map: parsed_map,
-			sockets: SocketParser.parse(
-				sockets,
-				Graph.postorder(graph)
-				|> Enum.reverse()
-			),
-			input: Enum.map(input, &Macro.var(String.to_atom(&1), nil)),
+			sockets: SocketParser.parse(ordered_sockets),
+			input: Enum.map(input, &String.to_atom(&1)),
 			output: Enum.map(output, &String.to_atom(&1))
 		}
 	end

@@ -8,8 +8,10 @@ defmodule FlowCompiler do
 
 		NodeCompiler.compile(:output, %{pattern: OutputNode, option: OutputNode.parse_options(output)})
 
+		input_args = Enum.map(input, &Macro.var(&1, nil))
+
 		module_content = quote do
-			defp execute(unquote_splicing(input)), do: unquote(runner_content)
+			def execute(unquote_splicing(input_args)), do: unquote(runner_content)
 		end
 
 		{:ok, file} = File.open(File.cwd!() <> "/generates/" <> Atom.to_string(flow_name) <> ".ex", [:write])

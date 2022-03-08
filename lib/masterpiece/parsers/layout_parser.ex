@@ -11,19 +11,18 @@ defmodule LayoutParser do
 			 }
 		 ) do
 		parsed_map = MapParser.parse(map)
-		graph = MapToGraph.execute(parsed_map)
+		ordered_sockets = parsed_map
+						  |> MapToGraph.execute()
+						  |> Graph.postorder
+						  |> Enum.reverse()
+						  |> Enum.map(&{&1, sockets[&1]})
 
 		%{
 			layout_name: CompilerHelper.to_atom(layout_name),
 			endpoints: EndpointParser.parse(endpoints),
 			nodes: NodeParser.parse(nodes),
 			map: parsed_map,
-			graph: graph,
-			sockets: SocketParser.parse(
-				sockets,
-				Graph.postorder(graph)
-				|> Enum.reverse()
-			),
+			sockets: SocketParser.parse(ordered_sockets),
 		}
 	end
 
