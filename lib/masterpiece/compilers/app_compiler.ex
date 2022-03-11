@@ -1,48 +1,30 @@
 defmodule AppCompiler do
-	def compile(layouts) do
-		layouts
-		|> compile_layouts
-		|> get_endpoints
+	def compile(objects) do
+		Enum.filter(objects, fn object -> object.__struct__ == Type.Flow end)
+		|> compile_flows
+
+		Enum.filter(objects, fn object -> object.__struct__ == Type.Endpoint end)
 		|> compile_endpoints
-		|> get_endpoints_apps
-		|> Macro.escape
 		|> compile_application
 	end
 
-	defp get_endpoints(layouts) do
+	defp compile_flows(flows) do
+		Enum.each(flows, &FlowCompiler.compile(&1))
+	end
+
+	defp compile_endpoints(endpoints) do
 		Enum.map_reduce(
-			layouts,
+			endpoints,
 			%{},
-			fn %{layout_name: layout_name, endpoints: endpoints} = x, acc ->
-				{x, update_acc(acc, endpoints, layout_name)}
+			fn %{name: name} = x, acc ->
+				{x, Map.put(acc, name, Map.get(acc, name, []) ++ [x])}
 			end
 		)
-		|> then(fn {_, all_endpoints} -> all_endpoints end)
-	end
+		|> then(fn {_, group} -> group end)
 
-	defp update_acc(acc, [], _) do
-		acc
-	end
+		Enum.each(endpoints, &EndpointsCompilerFactory.create(&1))
 
-	defp update_acc(acc, [{endpoint_name, metadata} | rest], layout_name) do
-		value = Map.get(acc, endpoint_name, [])
-		value = value ++ [Map.put(metadata, :layout_name, layout_name)]
-
-		Map.put(acc, endpoint_name, value)
-		|> update_acc(rest, layout_name)
-	end
-
-	defp compile_layouts(layouts) do
-		Enum.each(layouts, &LayoutCompiler.compile(&1))
-		layouts
-	end
-
-	defp compile_endpoints(all_endpoints) do
-		Enum.each(
-			all_endpoints,
-			fn {name, context} -> EndpointsCompilerFactory.create(name, context) end
-		)
-		all_endpoints
+		Enum.map(endpoints, fn %_{name: name} -> EndpointsApplicationsFactory.create(name) end)
 	end
 
 	defp get_endpoints_apps(all_endpoints) do
@@ -59,7 +41,7 @@ defmodule AppCompiler do
 			import Supervisor.Spec, warn: false
 
 			def start(_type, _args) do
-				children = unquote(endpoint_applications)
+				children = unquote(Macro.escape(endpoint_applications))
 
 				Supervisor.start_link children, [strategy: :one_for_one, name: Proxy.Supervisor]
 			end

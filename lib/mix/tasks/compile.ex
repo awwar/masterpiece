@@ -15,8 +15,8 @@ defmodule Mix.Tasks.Mtp.Compile do
 
 			content
 			|> RawConfigParser.parse(extension)
-			|> FlowParser.parse
-			|> Enum.map(&FlowCompiler.compile(&1))
+			|> ConfigParser.parse
+			|> AppCompiler.compile
 
 #			IEx.Helpers.recompile(force: true)
 		else

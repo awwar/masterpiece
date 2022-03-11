@@ -1,12 +1,13 @@
 defmodule HttpHandlerCompiler do
+	alias Types.Endpoints.Http
 
 	def compile(contexts) do
 		body = Enum.map(
 			contexts,
-			fn %{layout_name: layout_name, route: route, method: method} ->
+			fn %Http{flow: flow, route: route, method: method} ->
 				quote do
 					def call(unquote(method), unquote(route), conn) do
-						unquote(layout_name).run(%{http: conn})
+						unquote(flow).execute(conn)
 					end
 				end
 			end

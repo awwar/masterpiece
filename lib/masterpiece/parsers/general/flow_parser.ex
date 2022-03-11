@@ -1,7 +1,9 @@
 defmodule FlowParser do
-	def parse(layouts), do: Enum.map(layouts, &do_parse(&1))
+	alias Types.Flow
 
-	defp do_parse(
+	def parse(flows) when is_list(flows), do: Enum.map(flows, &parse(&1))
+
+	def parse(
 			 %{
 				 "flow_name" => flow_name,
 				 "nodes" => nodes,
@@ -13,12 +15,12 @@ defmodule FlowParser do
 		 ) do
 		parsed_map = MapParser.parse(map)
 		ordered_sockets = parsed_map
-							 |> MapToGraph.execute()
-							 |> Graph.postorder
-							 |> Enum.reverse()
-							 |> Enum.map(&{&1, sockets[&1]})
+						  |> MapToGraph.execute()
+						  |> Graph.postorder
+						  |> Enum.reverse()
+						  |> Enum.map(&{&1, sockets[&1]})
 
-		%{
+		%Flow{
 			flow_name: CompilerHelper.to_atom(flow_name),
 			nodes: NodeParser.parse(nodes),
 			map: parsed_map,
@@ -28,6 +30,6 @@ defmodule FlowParser do
 		}
 	end
 
-	defp do_parse(context),
+	def parse(context),
 		 do: raise "Unexpected layout context, got: " <> Kernel.inspect(context)
 end
