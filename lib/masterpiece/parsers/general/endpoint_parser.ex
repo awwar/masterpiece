@@ -1,22 +1,24 @@
 defmodule EndpointParser do
-	def parse(endpoints), do: Enum.map(endpoints, fn {name, context} -> do_parse(name, context) end)
+	def parse(endpoints) when is_list(endpoints), do: Enum.map(endpoints, &parse(&1))
 
-	defp do_parse("http", %{"route" => route, "method" => method}),
-		 do: %Type.Endpoints.Http{
-			 name: :http,
-			 route: route,
-			 method: method
-		 }
+	def parse(%{"type" => "http", "route" => route, "method" => method, "flow" => flow}),
+		do: %Types.Endpoint{
+			name: :http,
+			flow: String.to_atom(flow),
+			options: %Types.Endpoints.Http{
+				route: route,
+				method: method,
+			}
+		}
 
-	defp do_parse("http", options), do: raise "Endpoint 'http' not valid, got: " <> Kernel.inspect(options)
+	def parse(%{"type" => "kafka", "topic" => topic, "flow" => flow}),
+		do: %Types.Endpoint{
+			name: :kafka,
+			flow: String.to_atom(flow),
+			options: %Types.Endpoints.Kafka{
+				topic: topic
+			}
+		}
 
-	defp do_parse("kafka", %{"topic" => topic}),
-		 do: %Type.Endpoints.Http{
-			 name: :http,
-			 topic: topic,
-		 }
-
-	defp do_parse("kafka", options), do: raise "Endpoint 'kafka' not valid, got: " <> Kernel.inspect(options)
-
-	defp do_parse(endpoint, _), do: raise "Endpoint '#{endpoint}' not found!"
+	def parse(options), do: raise "Endpoint is invalid, got: " <> Kernel.inspect(options)
 end

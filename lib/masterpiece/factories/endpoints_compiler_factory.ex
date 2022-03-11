@@ -1,5 +1,5 @@
 defmodule EndpointsCompilerFactory do
-	def create(%Types.Endpoints.Http{}) do
+	def create(:http, data) do
 		HttpHandlerCompiler.compile(data)
 	end
 

@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Mtp.Compile do
 			|> ConfigParser.parse
 			|> AppCompiler.compile
 
-#			IEx.Helpers.recompile(force: true)
+			#			IEx.Helpers.recompile(force: true)
 		else
 			_ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
 		end

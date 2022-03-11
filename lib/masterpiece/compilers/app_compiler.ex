@@ -1,9 +1,9 @@
 defmodule AppCompiler do
 	def compile(objects) do
-		Enum.filter(objects, fn object -> object.__struct__ == Type.Flow end)
+		Enum.filter(objects, fn object -> object.__struct__ == Types.Flow end)
 		|> compile_flows
 
-		Enum.filter(objects, fn object -> object.__struct__ == Type.Endpoint end)
+		Enum.filter(objects, fn object -> object.__struct__ == Types.Endpoint end)
 		|> compile_endpoints
 		|> compile_application
 	end
@@ -13,25 +13,11 @@ defmodule AppCompiler do
 	end
 
 	defp compile_endpoints(endpoints) do
-		Enum.map_reduce(
-			endpoints,
-			%{},
-			fn %{name: name} = x, acc ->
-				{x, Map.put(acc, name, Map.get(acc, name, []) ++ [x])}
-			end
-		)
+		endpoints
+		|> Enum.map_reduce(%{}, &{&1, Map.put(&2, &1.name, Map.get(&2, &1.name, []) ++ [&1])})
 		|> then(fn {_, group} -> group end)
-
-		Enum.each(endpoints, &EndpointsCompilerFactory.create(&1))
-
-		Enum.map(endpoints, fn %_{name: name} -> EndpointsApplicationsFactory.create(name) end)
-	end
-
-	defp get_endpoints_apps(all_endpoints) do
-		Enum.map(
-			all_endpoints,
-			fn {endpoint_name, _} -> EndpointsApplicationsFactory.create(endpoint_name) end
-		)
+		|> tap(&Enum.each(&1, fn {name, endpoints} -> EndpointsCompilerFactory.create(name, endpoints) end))
+		|> Enum.map(fn {name, _} -> EndpointsApplicationsFactory.create(name) end)
 	end
 
 	defp compile_application(endpoint_applications) do
