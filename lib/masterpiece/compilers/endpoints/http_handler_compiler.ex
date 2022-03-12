@@ -5,17 +5,23 @@ defmodule HttpHandlerCompiler do
 	def compile(contexts) do
 		body = Enum.map(
 			contexts,
-			fn %Endpoint{flow: flow, options: %Http{route: route, method: method}} ->
+			fn %Endpoint{
+				   flow: flow,
+				   options: %Http{
+					   route: route,
+					   method: method
+				   }
+			   } ->
 				quote do
 					def call(unquote(method), unquote(route), conn) do
-						result = unquote(flow).execute(
+						{code, result} = unquote(flow).execute(
 							%{
 								query: Plug.Conn.Query.decode(conn.query_string),
 								body: conn.body_params
 							}
 						)
 
-						Plug.Conn.resp(conn, 200, Jason.encode!(result))
+						Plug.Conn.resp(conn, (if code === true, do: 200, else: 403), Jason.encode!(result))
 						|> Plug.Conn.send_resp()
 					end
 				end
