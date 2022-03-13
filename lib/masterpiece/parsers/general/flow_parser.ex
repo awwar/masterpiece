@@ -19,12 +19,13 @@ defmodule FlowParser do
 						  |> Graph.postorder
 						  |> Enum.reverse()
 						  |> Enum.map(&{&1, sockets[&1]})
+						  |> SocketParser.parse
 
 		%Flow{
 			flow_name: CompilerHelper.to_atom(flow_name),
 			nodes: NodeParser.parse(nodes),
 			map: parsed_map,
-			sockets: SocketParser.parse(ordered_sockets),
+			sockets: ordered_sockets,
 			input: Enum.map(input, &String.to_atom(&1)),
 			output: Enum.map(output, &String.to_atom(&1))
 		}

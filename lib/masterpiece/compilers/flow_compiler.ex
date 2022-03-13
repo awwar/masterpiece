@@ -13,6 +13,8 @@ defmodule FlowCompiler do
 
 		module_content = quote do
 			def execute(unquote_splicing(input_args)), do: unquote(runner_content)
+			def get_input(), do: unquote(input)
+			def get_output(), do: unquote(output)
 		end
 
 		{:ok, file} = File.open(File.cwd!() <> "/generates/" <> Atom.to_string(flow_name) <> ".ex", [:write])

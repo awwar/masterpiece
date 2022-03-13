@@ -3,6 +3,7 @@ defmodule Types.Endpoints.Http do
 		name: "",
 		route: "/",
 		method: "GET",
-		flow: ""
+		flow: "",
+		encode: :text
 	]
 end

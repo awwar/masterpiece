@@ -5,6 +5,9 @@
         method: POST
         route: /test3
         flow: ad234235
+        encode: json
+        input_mapping: []
+        output_mapping: []
 -   type: flow
     params:
         input: [ body ]

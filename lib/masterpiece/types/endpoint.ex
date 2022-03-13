@@ -2,6 +2,8 @@ defmodule Types.Endpoint do
 	defstruct [
 		name: "",
 		flow: "",
-		options: %{}
+		options: %{},
+		input_mapping: [],
+		output_mapping: [],
 	]
 end

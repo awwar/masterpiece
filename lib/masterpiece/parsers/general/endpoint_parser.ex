@@ -1,14 +1,27 @@
 defmodule EndpointParser do
 	def parse(endpoints) when is_list(endpoints), do: Enum.map(endpoints, &parse(&1))
 
-	def parse(%{"type" => "http", "route" => route, "method" => method, "flow" => flow}),
+	def parse(
+			%{
+				"type" => "http",
+				"route" => route,
+				"method" => method,
+				"flow" => flow,
+				"encode" => encode,
+				"input_mapping" => input_mapping,
+				"output_mapping" => output_mapping
+			}
+		),
 		do: %Types.Endpoint{
 			name: :http,
 			flow: String.to_atom(flow),
 			options: %Types.Endpoints.Http{
 				route: route,
 				method: method,
-			}
+				encode: String.to_atom(encode)
+			},
+		  	input_mapping: Enum.to_list(input_mapping),
+			output_mapping: Enum.to_list(input_mapping),
 		}
 
 	def parse(%{"type" => "kafka", "topic" => topic, "flow" => flow}),
