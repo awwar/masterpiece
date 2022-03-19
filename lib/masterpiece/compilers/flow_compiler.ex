@@ -23,18 +23,7 @@ defmodule FlowCompiler do
 			def get_output(), do: unquote(output)
 		end
 
-		{:ok, file} = File.open(File.cwd!() <> "/generates/" <> Atom.to_string(flow_name) <> ".ex", [:write])
-
-		IO.puts file,
-				Macro.to_string(
-					quote do
-						defmodule unquote(flow_name) do
-							unquote(module_content)
-						end
-					end
-				)
-
-		File.close(file)
+		TestGenerates.execute(Atom.to_string(flow_name), module_content)
 
 		Module.create(flow_name, module_content, Macro.Env.location(__ENV__))
 	end

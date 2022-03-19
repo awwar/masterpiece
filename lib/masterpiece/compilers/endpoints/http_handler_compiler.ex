@@ -53,19 +53,7 @@ defmodule HttpHandlerCompiler do
 			defp get_content_type("text"), do: "text/html"
 		end
 
-		{:ok, file} = File.open(File.cwd!() <> "/generates/endpoint.ex", [:write])
-
-
-		IO.puts file,
-				Macro.to_string(
-					quote do
-						defmodule HttpHandler do
-							unquote(module_content)
-						end
-					end
-				)
-
-		File.close(file)
+		TestGenerates.execute("endpoint", module_content)
 
 		Module.create(HttpHandler, module_content, Macro.Env.location(__ENV__))
 	end
