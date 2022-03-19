@@ -3,7 +3,5 @@ defmodule Types.Endpoint do
 		name: "",
 		flow: "",
 		options: %{},
-		input_mapping: [],
-		output_mapping: [],
 	]
 end

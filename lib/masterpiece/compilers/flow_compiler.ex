@@ -7,7 +7,13 @@ defmodule FlowCompiler do
 
 		runner_content = RunnerContentCompiler.compile(sockets, map)
 
-		NodeCompiler.compile(:output, %{pattern: OutputNode, option: OutputNode.parse_options(output)})
+		NodeCompiler.compile(
+			:output,
+			%{
+				pattern: OutputNode,
+				option: OutputNode.parse_options(output)
+			}
+		)
 
 		input_args = Enum.map(input, &Macro.var(&1, nil))
 

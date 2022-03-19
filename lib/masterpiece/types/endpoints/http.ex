@@ -4,6 +4,5 @@ defmodule Types.Endpoints.Http do
 		route: "/",
 		method: "GET",
 		flow: "",
-		encode: :text
 	]
 end

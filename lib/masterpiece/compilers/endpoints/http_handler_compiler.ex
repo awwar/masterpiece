@@ -10,8 +10,7 @@ defmodule HttpHandlerCompiler do
 				   options: %Http{
 					   route: route,
 					   method: method,
-					   encode: encode
-				   }
+				   },
 			   } ->
 				quote do
 					def call(unquote(method), unquote(route), conn) do
@@ -22,11 +21,14 @@ defmodule HttpHandlerCompiler do
 							}
 						)
 
-						Plug.Conn.resp(conn, (if code === true, do: 200, else: 403), unquote(get_resolver(encode)))
-						|> Plug.Conn.put_resp_content_type(unquote(get_content_type(encode)))
+						%{code: response_code, content_type: content_type, data: result} = result
+
+						Plug.Conn.resp(conn, response_code, encode_body(content_type, result))
+						|> Plug.Conn.put_resp_content_type(get_content_type(content_type))
 						|> Plug.Conn.send_resp()
 					rescue
-						_ -> Plug.Conn.resp(conn, 500, nil) |> Plug.Conn.send_resp()
+						e -> Plug.Conn.resp(conn, 500, e.message)
+							 |> Plug.Conn.send_resp()
 					end
 				end
 			end
@@ -41,20 +43,31 @@ defmodule HttpHandlerCompiler do
 				Plug.Conn.resp(conn, 404, [])
 				|> Plug.Conn.send_resp()
 			end
+
+			defp encode_body("json", data), do: Jason.encode!(data)
+
+			defp encode_body("text", data), do: "#{data}"
+
+			defp get_content_type("json"), do: "application/json"
+
+			defp get_content_type("text"), do: "text/html"
 		end
+
+		{:ok, file} = File.open(File.cwd!() <> "/generates/endpoint.ex", [:write])
+
+
+		IO.puts file,
+				Macro.to_string(
+					quote do
+						defmodule HttpHandler do
+							unquote(module_content)
+						end
+					end
+				)
+
+		File.close(file)
 
 		Module.create(HttpHandler, module_content, Macro.Env.location(__ENV__))
 	end
 
-	defp get_resolver(:json), do: quote do: Jason.encode!(result)
-
-	defp get_resolver(:text), do: quote do: "#{result}"
-
-	defp get_resolver(resolver), do: raise "Undefined resolver '#{resolver}}'!"
-
-	defp get_content_type(:json), do: "application/json"
-
-	defp get_content_type(:text), do: "text/html"
-
-	defp get_content_type(resolver), do: raise "Undefined resolver '#{resolver}}'!"
 end

@@ -7,9 +7,6 @@ defmodule EndpointParser do
 				"route" => route,
 				"method" => method,
 				"flow" => flow,
-				"encode" => encode,
-				"input_mapping" => input_mapping,
-				"output_mapping" => output_mapping
 			}
 		),
 		do: %Types.Endpoint{
@@ -18,10 +15,7 @@ defmodule EndpointParser do
 			options: %Types.Endpoints.Http{
 				route: route,
 				method: method,
-				encode: String.to_atom(encode)
 			},
-		  	input_mapping: Enum.to_list(input_mapping),
-			output_mapping: Enum.to_list(input_mapping),
 		}
 
 	def parse(%{"type" => "kafka", "topic" => topic, "flow" => flow}),
