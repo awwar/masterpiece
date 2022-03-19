@@ -7,11 +7,28 @@ defmodule ConditionParserTest do
 	doctest ConditionParser
 
 	test "parser works" do
-		assert ConditionParser.parse([1, "+", [2, "*", 3]]) === {:+, [], [1, {:*, [], [2, 3]}]}
+		expects = %Types.Expression{
+			left: %Types.Condition{
+				value: 1
+			},
+			method: "+",
+			right: %Types.Expression{
+				left: %Types.Condition{
+					value: 2
+				},
+				method: "*",
+				right: %Types.Condition{
+					value: 3
+				}
+			}
+		}
+		actual = ConditionParser.parse([1, "+", [2, "*", 3]])
+		assert expects === actual
 	end
 
 	test "parsed condition is compilable" do
-		iex = ConditionParser.parse([1, "+", [2, "*", 3]])
+		condition = ConditionParser.parse([1, "+", [2, "*", 3]])
+		iex = ConditionCompiler.compile(condition)
 
 		{result, _} = Code.eval_quoted(iex)
 
@@ -19,7 +36,8 @@ defmodule ConditionParserTest do
 	end
 
 	test "parsed condition is compilable with dynamic vars" do
-		iex = ConditionParser.parse([1, "+", [%{"name" => "var", "path" => ["a"]}, "*", 3]])
+		condition = ConditionParser.parse([1, "+", [%{"node" => "var", "path" => ["a"]}, "*", 3]])
+		iex = ConditionCompiler.compile(condition)
 
 		{result, _} = Code.eval_quoted(
 			iex,
@@ -34,7 +52,8 @@ defmodule ConditionParserTest do
 	end
 
 	test "parsed condition is compilable with constant vars" do
-		iex = ConditionParser.parse([1, "+", [%{"name" => "some_var"}, "*", 3]])
+		condition = ConditionParser.parse([1, "+", [%{"variable" => "some_var", "path" => []}, "*", 3]])
+		iex = ConditionCompiler.compile(condition)
 
 		{result, _} = Code.eval_quoted(iex, [some_var: 11])
 
