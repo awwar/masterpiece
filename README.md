@@ -12,6 +12,7 @@ Masterpiece is "no code" solution for a web server.
 1. Clone this repo
 2. Install elixir on your pc [(installation guide)](https://elixir-lang.org/install.html)
 3. Run `mix deps.get` to get web server dependency's
-4. Create a configuration ([./test.json](https://raw.githubusercontent.com/awwar/masterpiece/main/test.json), as example ) 
+4. Create a configuration ([./test.json](https://raw.githubusercontent.com/awwar/masterpiece/main/test.json), as
+   example )
 5. Run `mix mtp.compile --config <path to json config>`
 6. Run `mix run --no-halt` to start web server
