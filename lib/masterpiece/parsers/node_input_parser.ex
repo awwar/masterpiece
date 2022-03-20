@@ -16,8 +16,8 @@ defmodule NodeInputParser do
 		}
 	end
 
-	def parse(param) do
-		%Types.NodeInput{type: :value, value: param, path: []}
+	def parse(%{"value" => value}) do
+		%Types.NodeInput{type: :value, value: value, path: []}
 	end
 
 	def parse(context),

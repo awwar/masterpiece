@@ -40,12 +40,11 @@
                 settings:
                     node: output
                     input:
-                        1: 200
-                        2:
-                            node: number_node_1
+                        -   value: 200
+                        -   node: number_node_1
                             path:
                                 - result
-                        3: json
+                        -   value: json
             55f42207-fdc5-4ac2-8b0b-c66c5891c917:
                 type: node
                 settings:
@@ -56,13 +55,11 @@
                 settings:
                     node: node_addition_1
                     input:
-                        '1':
-                            variable: body
+                        -   variable: body
                             path:
                                 - body
                                 - a
-                        '2':
-                            variable: body
+                        -   variable: body
                             path:
                                 - body
                                 - b
@@ -71,12 +68,11 @@
                 settings:
                     node: output
                     input:
-                        1: 200
-                        2:
-                            node: number_node_2
+                        -   value: 200
+                        -   node: number_node_2
                             path:
                                 - result
-                        3: json
+                        -   value: json
             2ae14221-ff76-4c66-872c-e90339814b8b:
                 type: node
                 settings:
@@ -87,12 +83,11 @@
                 settings:
                     node: output
                     input:
-                        1: 200
-                        2:
-                            node: node_addition_1
+                        -   value: 200
+                        -   node: node_addition_1
                             path:
                                 - result
-                        3: json
+                        -   value: json
         map:
             55f42207-fdc5-4ac2-8b0b-c66c5891c917:
                 - { condition: true, id: 0b97b15e-bc25-4bed-ac87-ae24691c4eb3 }
