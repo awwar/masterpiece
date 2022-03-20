@@ -1,20 +1,6 @@
 defmodule SocketParser do
-	def parse(map, order) do
-		parsed_map = Enum.map(
-						 map,
-						 fn
-							 {id, context} -> {id, do_parse(id, context)}
-						 end
-					 )
-					 |> Map.new
+	def parse(map), do: Enum.map(map, fn {id, context} -> do_parse(id, context) end)
 
-		Enum.map(
-			order,
-			fn
-				id -> parsed_map[id]
-			end
-		)
-	end
 	defp do_parse(
 			 id,
 			 %{
@@ -24,8 +10,7 @@ defmodule SocketParser do
 					 "options" => options
 				 }
 			 }
-		 ), do:
-			 ScopeParser.parse(id, scope, options)
+		 ), do: ScopeParser.parse(id, scope, options)
 
 	defp do_parse(
 			 id,
@@ -36,6 +21,5 @@ defmodule SocketParser do
 					 "input" => input
 				 }
 			 }
-		 ), do:
-			 NodeSocketParser.parse(id, name, input)
+		 ), do: NodeSocketParser.parse(id, name, input)
 end

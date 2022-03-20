@@ -1,4 +1,5 @@
-path = "./layouts.yaml"
+path = "./flows.yaml"
+
 {:ok, content} = Path.join(File.cwd!(), path)
 				 |> File.read()
 
@@ -6,5 +7,5 @@ path = "./layouts.yaml"
 
 content
 |> RawConfigParser.parse(extension)
-|> LayoutParser.parse
+|> ConfigParser.parse
 |> AppCompiler.compile
