@@ -7,8 +7,36 @@
         flow: ad234235
 -   type: flow
     params:
-        input: [ body ]
-        output: [ code, data, content_type ]
+        input: [
+            {
+                pattern: object,
+                name: body,
+                settings: [
+                    {
+                        pattern: numeric_string,
+                        name: a,
+                    },
+                    {
+                        pattern: numeric_string,
+                        name: b,
+                    }
+                ]
+            }
+        ]
+        output: [
+            {
+                pattern: numeric_string,
+                name: code,
+            },
+            {
+                pattern: string,
+                name: data,
+            },
+            {
+                pattern: string,
+                name: content_type,
+            }
+        ]
         flow_name: ad234235
         sockets:
             a278e9d6-29a8-4a92-8cbc-310d6c83d147:
