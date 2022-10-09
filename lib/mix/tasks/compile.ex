@@ -1,5 +1,3 @@
-require Mix.Compilers.Elixir, as: CE
-
 defmodule Mix.Tasks.Mtp.Compile do
 	use Mix.Task
 
@@ -19,7 +17,6 @@ defmodule Mix.Tasks.Mtp.Compile do
 			|> RawConfigParser.parse(extension)
 			|> ConfigParser.parse
 			|> AppCompiler.compile
-
 		else
 			_ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
 		end
