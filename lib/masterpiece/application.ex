@@ -1,4 +1,4 @@
-path = "./flows.yaml"
+path = "./flows.json"
 
 {:ok, content} = Path.join(File.cwd!(), path)
 				 |> File.read()

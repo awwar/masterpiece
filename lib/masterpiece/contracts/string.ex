@@ -1,7 +1,12 @@
 defmodule Contacts.String do
 	@behaviour Behaviors.Contract
 
-	def parse(data, _) when is_binary(data), do: data
+	def create(_), do: Contacts.String.Parser
+end
 
-	def parse(data, _), do: raise "Received data is not string"
+defmodule Contacts.String.Parser do
+	@behaviour Behaviors.Contract.Parser
+
+	def execute(string) when is_binary(string), do: string
+	def execute(_), do: raise "Not string"
 end

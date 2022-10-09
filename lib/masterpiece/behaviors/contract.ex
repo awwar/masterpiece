@@ -1,5 +1,5 @@
 defmodule Behaviors.Contract do
 	@type t :: module
 
-	@callback parse(data, setting) :: term
+	@callback create(term) :: term
 end
