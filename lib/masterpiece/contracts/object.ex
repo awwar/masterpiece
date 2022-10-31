@@ -1,10 +1,33 @@
 defmodule Contacts.Object do
 	@behaviour Behaviors.Contract
 
-	# парсер должен возвращать функцию которая спарсит конкретный объект
-	def create(setting) do
-		callback = fn  ->  end
+	def create(setting) when is_list(setting) do
+		module_name = :crypto.strong_rand_bytes(12)
+					  |> Base.encode64(padding: false)
+					  |> String.to_atom
+		{:module, module, _, _} = Module.create(module_name, execute_body_ast(setting), Macro.Env.location(__ENV__))
 
-		callback
+		module
+	end
+
+	defp execute_body_ast(settings) do
+		items_ast = Enum.map(settings, &object_item_validator_ast/1)
+
+		quote do
+			def execute(object) do
+				unquote({:%{}, [], items_ast})
+			end
+		end
+	end
+
+	defp object_item_validator_ast(%{name: name, contract: contract}) do
+		contract_parser = ContractFactory.create(contract.pattern)
+		parser_method = contract_parser.create(contract.settings)
+		atom_name = String.to_atom(name)
+
+		{
+			atom_name,
+			quote do: unquote(parser_method).execute(Map.get_lazy(object, unquote(atom_name), fn -> raise "asdasd" end))
+		}
 	end
 end
