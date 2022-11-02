@@ -6,8 +6,8 @@
         route: /test3
         flow: ad234235
 -   type: contract
-    name: flow_input
     params:
+        name: flow_input
         pattern: object
         settings:
             -   name: a
@@ -17,16 +17,16 @@
                 contract:
                     pattern: numeric_string
 -   type: contract
-    name: http_code
     params:
+        name: http_code
         pattern: numeric_string
 -   type: contract
-    name: http_body
     params:
+        name: http_body
         pattern: string
 -   type: contract
-    name: http_content_type
     params:
+        name: http_content_type
         pattern: string
 -   type: flow
     params:

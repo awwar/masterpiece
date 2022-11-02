@@ -26,8 +26,8 @@ defmodule FlowParser do
 			nodes: NodeParser.parse(nodes),
 			map: parsed_map,
 			sockets: ordered_sockets,
-			input: Enum.map(input, &String.to_atom(&1)),
-			output: Enum.map(output, &String.to_atom(&1))
+			input: NamedContractParser.parse(input),
+			output: NamedContractParser.parse(output),
 		}
 	end
 

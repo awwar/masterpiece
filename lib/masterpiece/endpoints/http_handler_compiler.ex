@@ -1,5 +1,5 @@
 defmodule HttpHandlerCompiler do
-	alias Types.Endpoints.Http
+	alias Types.Endpoint.Http
 	alias Types.Endpoint
 
 	def compile(contexts) do

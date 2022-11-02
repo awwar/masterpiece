@@ -12,7 +12,7 @@ defmodule EndpointParser do
 		do: %Types.Endpoint{
 			name: :http,
 			flow: String.to_atom(flow),
-			options: %Types.Endpoints.Http{
+			options: %Types.Endpoint.Http{
 				route: route,
 				method: method,
 			},
@@ -22,7 +22,7 @@ defmodule EndpointParser do
 		do: %Types.Endpoint{
 			name: :kafka,
 			flow: String.to_atom(flow),
-			options: %Types.Endpoints.Kafka{
+			options: %Types.Endpoint.Kafka{
 				topic: topic
 			}
 		}

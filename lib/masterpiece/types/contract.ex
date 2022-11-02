@@ -1,5 +1,6 @@
-defmodule Types.Contracts.Base do
+defmodule Types.Contract do
 	defstruct [
+		name: "",
 		pattern: "",
 		settings: %{},
 	]

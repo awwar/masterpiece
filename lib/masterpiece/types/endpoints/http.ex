@@ -1,4 +1,4 @@
-defmodule Types.Endpoints.Http do
+defmodule Types.Endpoint.Http do
 	defstruct [
 		name: "",
 		route: "/",

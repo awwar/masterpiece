@@ -1,4 +1,4 @@
-defmodule Types.Endpoints.Kafka do
+defmodule Types.Endpoint.Kafka do
 	defstruct [
 		name: "",
 		topic: "",

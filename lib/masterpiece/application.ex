@@ -1,4 +1,4 @@
-path = "./flows.json"
+path = "./flows.yaml"
 
 {:ok, content} = Path.join(File.cwd!(), path)
 				 |> File.read()
@@ -8,4 +8,4 @@ path = "./flows.json"
 content
 |> RawConfigParser.parse(extension)
 |> ConfigParser.parse
-|> AppCompiler.compile
+|> IO.inspect
