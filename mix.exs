@@ -27,6 +27,7 @@ defmodule Masterpiece.MixProject do
 			{:yaml_elixir, "~> 2.8"},
 			{:plug_cowboy, "~> 2.0"},
 			{:plug, "~> 1.10"},
+			{:credo, "~> 1.6", only: [:dev, :test], runtime: false}
 		]
 	end
 end

@@ -4,12 +4,9 @@ defmodule ConfigParser do
 		|> Enum.map_reduce(
 			   %Types.Config{},
 			   fn
-				   %Types.Flow{} = object, config ->
-					   {object, Map.put(config, :flows, [object | config.flows])}
-				   %Types.Contract{} = object, config ->
-					   {object, Map.put(config, :contracts, [object | config.contracts])}
-				   %Types.Endpoint{} = object, config ->
-					   {object, Map.put(config, :endpoints, [object | config.endpoints])}
+				   %Types.Flow{} = object, config -> reduce_item(config, object, :flows)
+				   %Types.Contract{} = object, config -> reduce_item(config, object, :contracts)
+				   %Types.Endpoint{} = object, config -> reduce_item(config, object, :endpoints)
 			   end
 		   )
 		|> then(fn {_, config} -> config end)
@@ -21,5 +18,7 @@ defmodule ConfigParser do
 	def parse(%{"type" => "contract", "params" => params}), do: ContractParser.parse(params)
 
 	def parse(%{"type" => type}), do: raise "Got unexpected config object type: " <> type
+
+	defp reduce_item(acc, el, key), do: {el, Map.put(acc, key, [el | acc[key]])}
 end
 

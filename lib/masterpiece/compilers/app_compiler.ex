@@ -1,25 +1,13 @@
 defmodule AppCompiler do
-	def compile(objects) do
-#		Enum.filter(objects, fn object -> object.__struct__ == Types.Flow end)
-#		|> compile_flows
-#
-#		Enum.filter(objects, fn object -> object.__struct__ == Types.Endpoint end)
-#		|> compile_endpoints
-#		|> compile_application
-
-		Enum.each(objects, &do_compile/1)
-	end
-
-	defp do_compile(%Types.Flow{} = flow), do: FlowCompiler.compile(flow)
-
-	defp do_compile(%Types.Contract{} = contract), do: ContactCompiler.compile(contract)
-
-	defp do_compile(%Types.Endpoint{} = endpoint) do
-#		endpoints
-#		|> Enum.map_reduce(%{}, &{&1, Map.put(&2, &1.name, Map.get(&2, &1.name, []) ++ [&1])})
-#		|> then(fn {_, group} -> group end)
-#		|> tap(&Enum.each(&1, fn {name, endpoints} -> EndpointsCompilerFactory.create(name, endpoints) end))
-#		|> Enum.map(fn {name, _} -> EndpointsApplicationsFactory.create(name) end)
+	def compile(%Type.Config{flows: flows, endpoints: endpoints, contracts: contracts}) do
+		ContractCompiler.compile(contracts)
+		FlowCompiler.compile(flows)
+		EndpointCompiler.compile(endpoints)
+		endpoints
+		|> Enum.map(& &1.name)
+		|> Enum.uniq
+		|> Enum.map(&EndpointsApplicationsFactory.create)
+		|> compile_application
 	end
 
 	defp compile_application(endpoint_applications) do

@@ -1,4 +1,4 @@
-defmodule HttpHandlerCompiler do
+defmodule HttpEndpointCompiler do
 	alias Types.Endpoint.Http
 	alias Types.Endpoint
 

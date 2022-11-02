@@ -2,6 +2,8 @@ defmodule FlowCompiler do
 	alias NodePatterns.OutputNode
 	alias Types.Flow
 
+	def compile(flows) when is_list(flows), do: Enum.each(flows, &compile/1)
+
 	def compile(%Flow{flow_name: flow_name, nodes: nodes, map: map, sockets: sockets, input: input, output: output}) do
 		Enum.each(nodes, fn {name, context} -> NodeCompiler.compile(name, context) end)
 
