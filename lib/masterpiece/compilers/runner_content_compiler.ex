@@ -22,7 +22,7 @@ defmodule RunnerContentCompiler do
 
 		next_nodes_resolver = get_next(id, map, sockets)
 
-		new_args = Enum.map(inputs, &CompilerHelper.create_argument_variable(&1))
+		new_args = Enum.map(inputs, &Protocols.Compile.compile/1)
 
 		node_call = quote do: unquote(node_name).execute(unquote_splicing(new_args))
 

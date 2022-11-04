@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Mtp.Compile do
 			content
 			|> RawConfigParser.parse(extension)
 			|> ConfigParser.parse
-			|> IO.inspect
+			|> AppCompiler.compile
 		else
 			_ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
 		end
