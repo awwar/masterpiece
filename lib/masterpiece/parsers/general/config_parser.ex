@@ -38,4 +38,3 @@ defmodule ConfigParser do
 		|> Enum.map(fn {_, value} -> value end)
 	end
 end
-

@@ -13,7 +13,6 @@ defimpl Protocols.Compile, for: Types.Flow do
 	alias Types.Flow
 	alias NodePatterns.OutputNode
 
-
 	def compile(%Flow{flow_name: flow_name, nodes: nodes, map: map, sockets: sockets, input: input, output: output}) do
 		Enum.each(nodes, &Protocols.Compile.compile/1)
 
@@ -34,8 +33,8 @@ defimpl Protocols.Compile, for: Types.Flow do
 
 		module_content = quote do
 			def execute(unquote_splicing(input_args)), do: unquote(runner_content)
-			def get_input(), do: unquote(input_names)
-			def get_output(), do: unquote(output_names)
+			def get_input, do: unquote(input_names)
+			def get_output, do: unquote(output_names)
 		end
 
 		TestGenerates.execute(Atom.to_string(flow_name), module_content)

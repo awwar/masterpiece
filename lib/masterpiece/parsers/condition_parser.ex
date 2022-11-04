@@ -1,6 +1,6 @@
 defmodule ConditionParser do
-	alias Types.Expression
 	alias Types.Condition
+	alias Types.Expression
 
 	@methods ["===", ">", "<", ">=", "<=", "/", "*", "+", "-", "^"]
 

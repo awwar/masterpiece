@@ -1,6 +1,6 @@
 defmodule MapParser do
-	alias Types.SocketReference
 	alias Types.LogicConnection
+	alias Types.SocketReference
 
 	def parse(map), do:
 		Enum.map(

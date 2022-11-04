@@ -1,11 +1,11 @@
 defmodule RunnerContentCompiler do
+	alias Types.Condition
+	alias Types.LogicCondition
+	alias Types.LogicConnection
+	alias Types.NodeReference
 	alias Types.NodeSocket
 	alias Types.ScopeSocket
-	alias Types.NodeReference
 	alias Types.SocketReference
-	alias Types.LogicCondition
-	alias Types.Condition
-	alias Types.LogicConnection
 
 	def compile(sockets, map) do
 		root = List.first(sockets)
