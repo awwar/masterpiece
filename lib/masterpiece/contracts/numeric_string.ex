@@ -19,7 +19,7 @@ defmodule Contacts.NumericString.Parser do
 			_ -> :erlang.binary_to_float(value)
 		end
 	rescue
-		_ -> reraise "Is not a number"
+		_ -> reraise RuntimeError, "Is not a number", __STACKTRACE__
 	end
 	def execute(_), do: raise "Is not a number"
 end

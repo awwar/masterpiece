@@ -1,12 +1,12 @@
 defmodule AppCompiler do
-	def compile(%Type.Config{flows: flows, endpoints: endpoints, contracts: contracts}) do
+	def compile(%Types.Config{flows: flows, endpoints: endpoints, contracts: contracts}) do
 		ContractCompiler.compile(contracts)
-		FlowCompiler.compile(flows)
+		Enum.each(flows, &Protocols.Compile.compile/1)
 		EndpointCompiler.compile(endpoints)
 		endpoints
 		|> Enum.map(& &1.name)
 		|> Enum.uniq
-		|> Enum.map(&EndpointsApplicationsFactory.create)
+		|> Enum.map(&EndpointsApplicationsFactory.create/1)
 		|> compile_application
 	end
 

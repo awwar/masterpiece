@@ -5,7 +5,7 @@ defmodule NumberParser do
 		{number, rest} = Integer.parse(a)
 		confirm(number, rest)
 	rescue
-		_ -> reraise "Expected a numeric, got: '#{a}'"
+		_ -> reraise RuntimeError, "Expected a numeric, got: '#{a}'", __STACKTRACE__
 	end
 
 	def parse(entity), do: raise "Got unexpected entity: " <> Kernel.inspect(entity)

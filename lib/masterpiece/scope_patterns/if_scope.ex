@@ -4,7 +4,7 @@ defmodule ScopePatterns.IfScope do
 				condition: condition,
 			}
 		) do
-		ConditionCompiler.compile(condition)
+		Protocols.Compile.compile(condition)
 	end
 
 	def parse_options(%{"condition" => cond}) do

@@ -10,12 +10,10 @@ defmodule NodeParser do
 		 ) when is_map(options) do
 		node_pattern = NodePatternFactory.create(node_pattern_name)
 
-		{
-			CompilerHelper.to_atom(name),
-			%{
-				pattern: node_pattern,
-				option: node_pattern.parse_options(options),
-			}
+		%Types.Node{
+			name: CompilerHelper.to_atom(name),
+			pattern: node_pattern,
+			options: node_pattern.parse_options(options)
 		}
 	end
 

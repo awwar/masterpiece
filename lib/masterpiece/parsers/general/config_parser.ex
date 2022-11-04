@@ -19,6 +19,6 @@ defmodule ConfigParser do
 
 	def parse(%{"type" => type}), do: raise "Got unexpected config object type: " <> type
 
-	defp reduce_item(acc, el, key), do: {el, Map.put(acc, key, [el | acc[key]])}
+	defp reduce_item(acc, el, key), do: {el, Map.put(acc, key, [el | Map.get(acc, key, [])])}
 end
 
