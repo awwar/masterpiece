@@ -7,7 +7,6 @@ end
 
 defimpl Protocols.Compile, for: Types.EndpointGroup do
 	alias Types.EndpointGroup
-	alias Types.Endpoint
 
 	def compile(%EndpointGroup{name: :http, items: endpoints}) do
 		body = Enum.map(endpoints, &Protocols.Compile.compile/1)

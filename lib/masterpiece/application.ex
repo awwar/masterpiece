@@ -8,4 +8,4 @@ path = "./flows.yaml"
 content
 |> RawConfigParser.parse(extension)
 |> ConfigParser.parse
-|> AppCompiler.compile
+|> Protocols.Compile.compile

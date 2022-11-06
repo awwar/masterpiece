@@ -5,3 +5,10 @@ defmodule Types.Contract do
 		settings: %{},
 	]
 end
+
+defimpl Protocols.Compile, for: Types.Contract do
+	alias Types.Contract
+
+	def compile(%Contract{}) do
+	end
+end

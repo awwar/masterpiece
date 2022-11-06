@@ -17,6 +17,6 @@ defmodule Mix.Tasks.Mtp.Compile do
 		content
 		|> RawConfigParser.parse(extension)
 		|> ConfigParser.parse
-		|> AppCompiler.compile
+		|> Protocols.Compile.compile
 	end
 end

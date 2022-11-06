@@ -13,10 +13,6 @@ defmodule RunnerContentCompiler do
 		get_node_resolver(root, map, sockets)
 	end
 
-	defp get_node_resolver([], _, _) do
-		nil
-	end
-
 	defp get_node_resolver(%NodeSocket{id: id, name: ref, inputs: inputs}, map, sockets) do
 		node_name = NodeReference.to_atom(ref)
 

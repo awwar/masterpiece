@@ -2,7 +2,7 @@ defmodule ConfigParser do
 	def parse(objects) when is_list(objects) do
 		Enum.map(objects, &parse(&1))
 		|> Enum.map_reduce(
-			   %Types.Config{},
+			   %Types.App{},
 			   fn
 				   %Types.Flow{} = object, config -> reduce_item(config, object, :flows)
 				   %Types.Contract{} = object, config -> reduce_item(config, object, :contracts)
