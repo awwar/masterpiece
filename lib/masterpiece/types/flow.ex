@@ -2,7 +2,10 @@ defmodule Types.Flow do
 	defstruct [
 		flow_name: "",
 		nodes: %{},
-		tree: %Types.NodeTree{current: nil, next: []},
+		tree: %Types.NodeTree{
+			current: nil,
+			next: []
+		},
 		input: [],
 		output: []
 	]

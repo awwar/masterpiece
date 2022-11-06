@@ -7,7 +7,10 @@ defimpl Protocols.Compile, for: Types.NodeInput do
 
 	def compile(%NodeInput{type: :node, value: node_reference, path: out}), do:
 		quote do: ExtendMap.get_in!(
-			unquote(CompilerHelper.get_node_result_variable(node_reference)),
+			unquote(
+				Protocols.Compile.compile(node_reference)
+				|> Macro.var(nil)
+			),
 			unquote(out)
 		)
 

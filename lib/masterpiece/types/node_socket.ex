@@ -4,19 +4,17 @@ end
 
 defimpl Protocols.Compile, for: Types.NodeSocket do
 	alias Types.NodeSocket
-	alias Types.NodeReference
 
-	def compile(%NodeSocket{id: id, name: ref, inputs: inputs}) do
-		node_name = NodeReference.to_atom(ref)
-
+	def compile(%NodeSocket{name: ref, inputs: inputs}) do
 		new_args = Enum.map(inputs, &Protocols.Compile.compile/1)
 
-		node_call = quote do: unquote(node_name).execute(unquote_splicing(new_args))
-
-		node_state_variable = CompilerHelper.get_node_result_variable(node_name)
+		node_module = Protocols.Compile.compile(ref)
+		node_state_variable = node_module
+							  |> Macro.var(nil)
 
 		quote do
-			{ctrl_code, unquote(node_state_variable)} = unquote(node_call)
+			{unquote({:ctrl_code, [], nil}), unquote(node_state_variable)}
+			= unquote(node_module).execute(unquote_splicing(new_args))
 		end
 	end
 end
