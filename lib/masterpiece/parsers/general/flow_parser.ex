@@ -1,5 +1,12 @@
 defmodule FlowParser do
 	alias Types.Flow
+	alias Types.Condition
+	alias Types.LogicCondition
+	alias Types.LogicConnection
+	alias Types.NodeReference
+	alias Types.NodeSocket
+	alias Types.ScopeSocket
+	alias Types.SocketReference
 
 	def parse(flows) when is_list(flows), do: Enum.map(flows, &parse(&1))
 
@@ -24,8 +31,8 @@ defmodule FlowParser do
 		%Flow{
 			flow_name: CompilerHelper.to_atom(flow_name),
 			nodes: NodeParser.parse(nodes),
-			map: parsed_map,
-			sockets: ordered_sockets,
+			tree: List.first(ordered_sockets)
+				  |> node_tree(parsed_map, ordered_sockets),
 			input: NamedContractParser.parse(input),
 			output: NamedContractParser.parse(output),
 		}
@@ -33,4 +40,33 @@ defmodule FlowParser do
 
 	def parse(context),
 		do: raise "Unexpected layout context, got: " <> Kernel.inspect(context)
+
+	defp node_tree(%_{id: id} = node, map, sockets) do
+		next_nodes = next_nodes(id, map, sockets)
+
+		%Types.NodeTree{
+			current: node,
+			next: Enum.map(next_nodes, fn {condition, socket} -> {condition, node_tree(socket, map, sockets)} end)
+		}
+	end
+
+	defp next_nodes(id, map, sockets) do
+		Enum.filter(map, fn %LogicConnection{from_id: from_id} -> from_id === id end)
+		|> Enum.map(fn %LogicConnection{condition: condition} -> condition end)
+		|> Enum.map(
+			   fn %LogicCondition{
+					  to_id: to_id,
+					  condition: condition
+				  } -> {condition, get_compliance_node(to_id, sockets)}
+			   end
+		   )
+	end
+
+	defp get_compliance_node(to_id, sockets),
+		 do: Enum.find(
+			 sockets,
+			 fn %_{id: id} ->
+				 SocketReference.to_binary(id) === SocketReference.to_binary(to_id)
+			 end
+		 )
 end

@@ -2,8 +2,7 @@ defmodule Types.Flow do
 	defstruct [
 		flow_name: "",
 		nodes: %{},
-		map: [],
-		sockets: [],
+		tree: %Types.NodeTree{current: nil, next: []},
 		input: [],
 		output: []
 	]
@@ -13,13 +12,13 @@ defimpl Protocols.Compile, for: Types.Flow do
 	alias Types.Flow
 	alias NodePatterns.OutputNode
 
-	def compile(%Flow{flow_name: flow_name, nodes: nodes, map: map, sockets: sockets, input: input, output: output}) do
+	def compile(%Flow{flow_name: flow_name, nodes: nodes, tree: tree, input: input, output: output}) do
 		Enum.each(nodes, &Protocols.Compile.compile/1)
 
 		input_names = Enum.map(input, & &1.name)
 		output_names = Enum.map(output, & &1.name)
 
-		runner_content = RunnerContentCompiler.compile(sockets, map)
+		runner_content = Protocols.Compile.compile(tree)
 
 		Protocols.Compile.compile(
 			%Types.Node{
