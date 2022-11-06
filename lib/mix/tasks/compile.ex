@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Mtp.Compile do
 	use Mix.Task
+	import CompilerHelper
 
 	def run(params) do
 		case OptionParser.parse(params, switches: [config: :string]) do
@@ -17,6 +18,6 @@ defmodule Mix.Tasks.Mtp.Compile do
 		content
 		|> RawConfigParser.parse(extension)
 		|> ConfigParser.parse
-		|> Protocols.Compile.compile
+		|> as_ast
 	end
 end

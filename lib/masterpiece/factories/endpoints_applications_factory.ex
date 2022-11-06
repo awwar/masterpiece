@@ -1,3 +1,0 @@
-defmodule EndpointsApplicationsFactory do
-
-end

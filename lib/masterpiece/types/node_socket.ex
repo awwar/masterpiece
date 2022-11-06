@@ -4,11 +4,12 @@ end
 
 defimpl Protocols.Compile, for: Types.NodeSocket do
 	alias Types.NodeSocket
+	import CompilerHelper
 
 	def compile(%NodeSocket{name: ref, inputs: inputs}) do
-		new_args = Enum.map(inputs, &Protocols.Compile.compile/1)
+		new_args = Enum.map(inputs, &as_ast/1)
 
-		node_module = Protocols.Compile.compile(ref)
+		node_module = as_ast(ref)
 		node_state_variable = node_module
 							  |> Macro.var(nil)
 

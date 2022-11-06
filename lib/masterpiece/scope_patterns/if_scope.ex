@@ -1,10 +1,12 @@
 defmodule ScopePatterns.IfScope do
+	import CompilerHelper
+
 	def get_content(
 			%{
 				condition: condition,
 			}
 		) do
-		Protocols.Compile.compile(condition)
+		as_ast(condition)
 	end
 
 	def parse_options(%{"condition" => cond}) do

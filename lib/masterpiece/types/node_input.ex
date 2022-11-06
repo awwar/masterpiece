@@ -4,11 +4,12 @@ end
 
 defimpl Protocols.Compile, for: Types.NodeInput do
 	alias Types.NodeInput
+	import CompilerHelper
 
 	def compile(%NodeInput{type: :node, value: node_reference, path: out}), do:
 		quote do: ExtendMap.get_in!(
 			unquote(
-				Protocols.Compile.compile(node_reference)
+				as_ast(node_reference)
 				|> Macro.var(nil)
 			),
 			unquote(out)

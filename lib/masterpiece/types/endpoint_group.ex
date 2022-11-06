@@ -7,9 +7,10 @@ end
 
 defimpl Protocols.Compile, for: Types.EndpointGroup do
 	alias Types.EndpointGroup
+	import CompilerHelper
 
 	def compile(%EndpointGroup{name: :http, items: endpoints}) do
-		body = Enum.map(endpoints, &Protocols.Compile.compile/1)
+		body = Enum.map(endpoints, &as_ast/1)
 
 		module_content = quote do
 			import Plug.Conn

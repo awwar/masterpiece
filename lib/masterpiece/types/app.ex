@@ -8,11 +8,12 @@ end
 
 defimpl Protocols.Compile, for: Types.App do
 	alias Types.App
+	import CompilerHelper
 
 	def compile(%App{flows: flows, endpoints: endpoints, contracts: contracts}) do
-		Enum.each(contracts, &Protocols.Compile.compile/1)
-		Enum.each(flows, &Protocols.Compile.compile/1)
-		Enum.each(endpoints, &Protocols.Compile.compile/1)
+		Enum.each(contracts, &as_ast/1)
+		Enum.each(flows, &as_ast/1)
+		Enum.each(endpoints, &as_ast/1)
 		endpoints
 		|> Enum.map(&get_process_config/1)
 		|> compile_application

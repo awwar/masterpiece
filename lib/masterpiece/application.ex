@@ -1,3 +1,5 @@
+import CompilerHelper
+
 path = "./flows.yaml"
 
 {:ok, content} = Path.join(File.cwd!(), path)
@@ -8,4 +10,4 @@ path = "./flows.yaml"
 content
 |> RawConfigParser.parse(extension)
 |> ConfigParser.parse
-|> Protocols.Compile.compile
+|> as_ast

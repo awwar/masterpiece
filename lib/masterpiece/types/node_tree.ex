@@ -4,10 +4,10 @@ end
 
 defimpl Protocols.Compile, for: Types.NodeTree do
 	alias Types.NodeTree
-	alias NodePatterns.OutputNode
+	import CompilerHelper
 
 	def compile(%NodeTree{current: current_node, next: []}) do
-		{_, _, [_ | [node_call]]} = Protocols.Compile.compile(current_node)
+		{_, _, [_ | [node_call]]} = as_ast(current_node)
 
 		quote do
 			unquote(node_call)
@@ -15,7 +15,7 @@ defimpl Protocols.Compile, for: Types.NodeTree do
 	end
 
 	def compile(%NodeTree{current: current_node, next: next_nodes}) do
-		node_call = Protocols.Compile.compile(current_node)
+		node_call = as_ast(current_node)
 
 		quote do
 			unquote(node_call)
@@ -24,7 +24,7 @@ defimpl Protocols.Compile, for: Types.NodeTree do
 				unquote(
 					Enum.map(
 						next_nodes,
-						fn {f, n} -> {:->, [], [[Protocols.Compile.compile(f)], Protocols.Compile.compile(n)]} end
+						fn {f, n} -> {:->, [], [[as_ast(f)], as_ast(n)]} end
 					)
 				)
 			end

@@ -14,16 +14,17 @@ end
 defimpl Protocols.Compile, for: Types.Flow do
 	alias Types.Flow
 	alias NodePatterns.OutputNode
+	import CompilerHelper
 
 	def compile(%Flow{flow_name: flow_name, nodes: nodes, tree: tree, input: input, output: output}) do
-		Enum.each(nodes, &Protocols.Compile.compile/1)
+		Enum.each(nodes, &as_ast/1)
 
 		input_names = Enum.map(input, & &1.name)
 		output_names = Enum.map(output, & &1.name)
 
-		runner_content = Protocols.Compile.compile(tree)
+		runner_content = as_ast(tree)
 
-		Protocols.Compile.compile(
+		as_ast(
 			%Types.Node{
 				name: :output,
 				pattern: OutputNode,
