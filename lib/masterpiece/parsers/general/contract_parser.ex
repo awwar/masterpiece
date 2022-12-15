@@ -5,24 +5,16 @@ defmodule ContractParser do
 			%{
 				"name" => name,
 				"pattern" => pattern
-			}
-		), do: %Types.Contract{
-			name: String.to_atom(name),
-			pattern: String.to_atom(pattern),
-			settings: %{},
-		}
-
-	def parse(
-			%{
-				"name" => name,
-				"pattern" => pattern,
-				"settings" => settings
-			}
-		), do: %Types.Contract{
-			name: String.to_atom(name),
-			pattern: String.to_atom(pattern),
-			settings: settings,
-		}
+			} = setting
+		), do: do_parse(name, pattern, Map.get(setting, "settings", %{}), Map.get(setting, "casts", []))
 
 	def parse(options), do: raise "Contract is invalid, got: " <> Kernel.inspect(options)
+
+	defp do_parse(name, pattern, settings, casts),
+		 do: %Types.Contract{
+			 name: name,
+			 pattern: String.to_atom(pattern),
+			 settings: settings,
+			 casts: casts,
+		 }
 end

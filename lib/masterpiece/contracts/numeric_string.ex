@@ -5,21 +5,19 @@ defmodule Contacts.NumericString do
 
 	# @fast_regex ~r/^(-?[\d,]*)?(\.[\deE]{1,})?$/
 
-	def create(_), do: Contacts.NumericString.Parser
-end
-
-defmodule Contacts.NumericString.Parser do
-	@behaviour Behaviors.Contract.Parser
-
-	def execute(value) when is_number(value), do: value
-	def execute(value) when is_binary(value) do
-		try do
-			:erlang.binary_to_integer(value)
-		rescue
-			_ -> :erlang.binary_to_float(value)
+	def create(_) do
+		quote do
+			def execute(value) when is_number(value), do: value
+			def execute(value) when is_binary(value) do
+				try do
+					:erlang.binary_to_integer(value)
+				rescue
+					_ -> :erlang.binary_to_float(value)
+				end
+			rescue
+				_ -> reraise RuntimeError, "Is not a number", __STACKTRACE__
+			end
+			def execute(_), do: raise "Is not a number"
 		end
-	rescue
-		_ -> reraise RuntimeError, "Is not a number", __STACKTRACE__
 	end
-	def execute(_), do: raise "Is not a number"
 end

@@ -8,7 +8,7 @@
 -   type: contract
     params:
         name: flow_input
-        pattern: object
+        extends: object
         settings:
             -   name: a
                 contract:
@@ -19,15 +19,15 @@
 -   type: contract
     params:
         name: http_code
-        pattern: numeric_string
+        extends: numeric_string
 -   type: contract
     params:
         name: http_body
-        pattern: string
+        extends: string
 -   type: contract
     params:
         name: http_content_type
-        pattern: string
+        extends: string
 -   type: flow
     params:
         input:

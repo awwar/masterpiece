@@ -2,15 +2,6 @@ defmodule Contacts.List do
 	@behaviour Behaviors.Contract
 
 	def create(setting) do
-		module_name = :crypto.strong_rand_bytes(12)
-					  |> Base.encode64(padding: false)
-					  |> String.to_atom
-		{:module, module, _, _} = Module.create(module_name, execute_body_ast(setting), Macro.Env.location(__ENV__))
-
-		module
-	end
-
-	defp execute_body_ast(settings) do
 		validator_module = list_item_validator(settings)
 
 		quote do
