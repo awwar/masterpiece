@@ -3,7 +3,7 @@ defmodule Types.Contract do
 		name: "",
 		extends: "",
 		settings: %{},
-		casts: []
+		cast_from: []
 	]
 end
 
