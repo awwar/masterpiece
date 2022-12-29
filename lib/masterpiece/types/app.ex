@@ -11,7 +11,15 @@ defimpl Protocols.Compile, for: Types.App do
 	import CompilerHelper
 
 	def compile(%App{flows: flows, endpoints: endpoints, contracts: contracts}) do
-		Enum.each(contracts, &as_ast/1)
+		contracts++ [
+			%Contract{name: :string},
+			%Contract{name: :integer},
+			%Contract{name: :bool},
+			%Contract{name: :float},
+			%Contract{name: :list},
+			%Contract{name: :numeric_string},
+			%Contract{name: :object},
+		] |> Enum.each(&as_ast/1)
 		Enum.each(flows, &as_ast/1)
 		Enum.each(endpoints, &as_ast/1)
 		endpoints

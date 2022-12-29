@@ -6,11 +6,26 @@ defmodule Contacts.String do
 			defstruct [value: ""]
 
 			def get_sockets, do: [:value]
-			def update_value(self, key, value) when is_binary(value), do: Map.put(self, key, value)
-			def update_value(_, _, _), do: raise "Not string"
-			def cast_from(:binary, value) when is_binary(value), do: %__MODULE__{value: value}
-			def execute(string) when is_binary(string), do: string
-			def execute(_), do: raise "Not string"
 		end
 	end
+
+	def module_name, do: :string_contract_module
+
+	def factory(value), do: %:string_contract_module{value: Kernel.inspect value}
+end
+
+defimpl Protocols.Cast, for: Contacts.Bool.module_name() do
+	def cast(_, "string"), do: Contacts.String.factory("")
+end
+
+defimpl Protocols.Cast, for: Contacts.Float.module_name() do
+	def cast(%_{value: value}, "string"), do: Contacts.String.factory(value)
+end
+
+defimpl Protocols.Cast, for: Contacts.Integer.module_name() do
+	def cast(%_{value: value}, "string"), do: Contacts.String.factory(value)
+end
+
+defimpl Protocols.Cast, for: Contacts.NumericString.module_name() do
+	def cast(%_{value: value}, "string"), do: Contacts.String.factory(value)
 end

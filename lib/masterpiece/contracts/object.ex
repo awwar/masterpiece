@@ -2,7 +2,7 @@ defmodule Contacts.Object do
 	@behaviour Behaviors.Contract
 
 	def create(setting) when is_list(setting) do
-		items_ast = Enum.map(settings, &object_item_validator_ast/1)
+		items_ast = Enum.map(setting, &object_item_validator_ast/1)
 
 		quote do
 			def execute(object) do

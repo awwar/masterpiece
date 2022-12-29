@@ -10,6 +10,7 @@ defmodule MapParser do
 			end
 		)
 		|> List.flatten()
+
 	defp do_parse(id, conditions) when is_list(conditions), do:
 		Enum.map(
 			conditions,

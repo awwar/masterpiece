@@ -3,5 +3,5 @@ defprotocol Protocols.Compile do
 end
 
 defimpl Protocols.Compile, for: Any do
-	def compile(data), do: raise "No protocol found for " <> Kernel.inspect(data)
+	def compile(data), do: raise "No Compile protocol found for " <> Kernel.inspect(data)
 end
