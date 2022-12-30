@@ -3,10 +3,9 @@ defmodule Types.NodeSocket do
 end
 
 defimpl Protocols.Compile, for: Types.NodeSocket do
-	alias Types.NodeSocket
 	import CompilerHelper
 
-	def compile(%NodeSocket{name: ref, inputs: inputs}) do
+	def compile(%Types.NodeSocket{name: ref, inputs: inputs}) do
 		new_args = Enum.map(inputs, &as_ast/1)
 
 		node_module = as_ast(ref)

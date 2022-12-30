@@ -6,27 +6,21 @@ defmodule Contacts.Float do
 			defstruct [value: ""]
 
 			def get_sockets, do: [:value]
+
+			defimpl Protocols.Cast do
+				def cast(%_{value: 0.0}, "bool"), do: unquote(Contacts.Bool.module_name).factory(false)
+				def cast(_, "bool"), do: unquote(Contacts.Bool.module_name).factory(true)
+
+				def cast(%_{value: value}, "integer"), do: trunc(value) |> unquote(Contacts.Integer.module_name).factory
+
+				def cast(%_{value: value}, "numeric_string"), do: unquote(Contacts.NumericString.module_name).factory(value)
+
+				def cast(%_{value: value}, "string"), do: unquote(Contacts.String.module_name).factory(value)
+			end
+
+			def factory(value), do: %:float_contract_module{value: value}
 		end
 	end
 
 	def module_name, do: :float_contract_module
-
-	def factory(value), do: %:float_contract_module{value: true}
-end
-
-defimpl Protocols.Cast, for: Contacts.Bool.module_name() do
-	def cast(%_{value: true}, "float"), do: Contacts.Float.factory(1.0)
-	def cast(%_{value: false}, "float"), do: Contacts.Float.factory(0.0)
-end
-
-defimpl Protocols.Cast, for: Contacts.Integer.module_name() do
-	def cast(%_{value: value}, "float"), do: Contacts.Float.factory(value + 0.0)
-end
-
-defimpl Protocols.Cast, for: Contacts.NumericString.module_name() do
-	def cast(%_{value: value}, "float"), do: Contacts.Float.factory(value <> "")
-end
-
-defimpl Protocols.Cast, for: Contacts.String.module_name() do
-	def cast(%_{value: value}, "float"), do: Contacts.Float.factory(value <> "")
 end

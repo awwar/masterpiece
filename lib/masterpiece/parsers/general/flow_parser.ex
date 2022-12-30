@@ -1,11 +1,7 @@
 defmodule FlowParser do
 	alias Types.Flow
-	alias Types.Condition
 	alias Types.LogicCondition
 	alias Types.LogicConnection
-	alias Types.NodeReference
-	alias Types.NodeSocket
-	alias Types.ScopeSocket
 	alias Types.SocketReference
 
 	def parse(flows) when is_list(flows), do: Enum.map(flows, &parse(&1))

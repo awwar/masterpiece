@@ -8,10 +8,11 @@ end
 
 defimpl Protocols.Compile, for: Types.App do
 	alias Types.App
+	alias Types.Contract
 	import CompilerHelper
 
 	def compile(%App{flows: flows, endpoints: endpoints, contracts: contracts}) do
-		contracts++ [
+		 [
 			%Contract{name: :string},
 			%Contract{name: :integer},
 			%Contract{name: :bool},
@@ -19,7 +20,11 @@ defimpl Protocols.Compile, for: Types.App do
 			%Contract{name: :list},
 			%Contract{name: :numeric_string},
 			%Contract{name: :object},
-		] |> Enum.each(&as_ast/1)
+		]
+		 ++ contracts
+		 |> Enum.each(&as_ast/1)
+
+
 		Enum.each(flows, &as_ast/1)
 		Enum.each(endpoints, &as_ast/1)
 		endpoints
