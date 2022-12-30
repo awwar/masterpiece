@@ -4,10 +4,11 @@ defmodule ContractParserTest do
     @moduletag :capture_log
 
     test "negative integer" do
-        result = Contacts.NumericString.factory("13.14")
-                 |> Protocols.Cast.cast("integer")
-
-        assert 13 === result
+        Contacts.NumericString.module_name.factory("13.23")
+        |> Protocols.Cast.cast("integer")
+        |> then(& &1.value)
+        |> then(& &1 === 13)
+        |> assert
     end
 
     #	test "negative integer" do
