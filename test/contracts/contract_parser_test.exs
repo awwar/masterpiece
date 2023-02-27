@@ -11,13 +11,13 @@ defmodule ContractParserTest do
         |> assert
     end
 
-    #	test "negative integer" do
-    #		parser = Contacts.NumericString.create(%{})
-    #
-    #		result = parser.execute("-123")
-    #
-    #		assert -123 === result
-    #	end
+    test "json" do
+      Contacts.Json.module_name.factory("{\"asd\":123}")
+      |> Protocols.Cast.cast("map")
+      |> then(& &1.value)
+      |> then(& &1 === %{"asd" => 123})
+      |> assert
+    end
     #
     #	test "negative float" do
     #		parser = Contacts.NumericString.create(%{})

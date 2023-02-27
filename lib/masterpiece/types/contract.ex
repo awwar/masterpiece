@@ -19,20 +19,17 @@ defimpl Protocols.Compile, for: Types.Contract do
     def compile(%Contract{name: :integer} = contract),
         do: compile_module(contract, Contacts.Integer)
 
-    def compile(%Contract{name: :list} = contract),
-        do: compile_module(contract, Contacts.List)
-
     def compile(%Contract{name: :numeric_string} = contract),
         do: compile_module(contract, Contacts.NumericString)
-
-    def compile(%Contract{name: :object} = contract),
-        do: compile_module(contract, Contacts.Object)
 
     def compile(%Contract{name: :string} = contract),
         do: compile_module(contract, Contacts.String)
 
-    def compile(%Contract{name: _} = contract),
-        do: compile_module(contract, Contacts.Custom)
+    def compile(%Contract{name: :json} = contract),
+        do: compile_module(contract, Contacts.Json)
+
+    def compile(%Contract{extends: extends} = contract),
+        do: compile(%Contract{name: extends, extends: extends})
 
     def compile(arg),
         do: raise inspect(arg)

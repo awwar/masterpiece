@@ -5,29 +5,29 @@
         method: POST
         route: /test3
         flow: ad234235
--   type: contract
-    params:
-        name: flow_input
-        extends: object
-        settings:
-            -   name: a
-                contract:
-                    pattern: numeric_string
-            -   name: b
-                contract:
-                    pattern: numeric_string
--   type: contract
-    params:
-        name: http_code
-        extends: numeric_string
--   type: contract
-    params:
-        name: http_body
-        extends: string
--   type: contract
-    params:
-        name: http_content_type
-        extends: string
+#-   type: contract
+#    params:
+#        name: flow_input
+#        extends: object
+#        settings:
+#            -   name: a
+#                contract:
+#                    pattern: numeric_string
+#            -   name: b
+#                contract:
+#                    pattern: numeric_string
+#-   type: contract
+#    params:
+#        name: http_code
+#        extends: numeric_string
+#-   type: contract
+#    params:
+#        name: http_body
+#        extends: string
+#-   type: contract
+#    params:
+#        name: http_content_type
+#        extends: string
 -   type: flow
     params:
         input:

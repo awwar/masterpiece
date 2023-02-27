@@ -17,9 +17,8 @@ defimpl Protocols.Compile, for: Types.App do
 			%Contract{name: :integer},
 			%Contract{name: :bool},
 			%Contract{name: :float},
-			%Contract{name: :list},
 			%Contract{name: :numeric_string},
-			%Contract{name: :object},
+      %Contract{name: :json}
 		]
 		 ++ contracts
 		 |> Enum.each(&as_ast/1)
