@@ -10,8 +10,8 @@ end
 defimpl Protocols.Compile, for: Types.Contract do
     alias Types.Contract
 
-    def compile(%Contract{name: :bool} = contract),
-        do: compile_module(contract, Contacts.Bool)
+    def compile( contract),
+        do: {}
 
     def compile(%Contract{name: :float} = contract),
         do: compile_module(contract, Contacts.Float)

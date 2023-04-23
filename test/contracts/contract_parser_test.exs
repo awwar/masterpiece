@@ -6,16 +6,14 @@ defmodule ContractParserTest do
     test "negative integer" do
         Contacts.NumericString.module_name.factory("13.23")
         |> Protocols.Cast.cast("integer")
-        |> then(& &1.value)
-        |> then(& &1 === 13)
+        |> then(& &1.value === 13)
         |> assert
     end
 
     test "json" do
       Contacts.Json.module_name.factory("{\"asd\":123}")
       |> Protocols.Cast.cast("map")
-      |> then(& &1.value)
-      |> then(& &1 === %{"asd" => 123})
+      |> then(& &1.value === %{"asd" => 123})
       |> assert
     end
     #
