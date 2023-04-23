@@ -31,7 +31,7 @@ defimpl Protocols.Compile, for: Types.EndpointGroup do
 			defp get_content_type("text"), do: "text/html"
 		end
 
-		TestGenerates.execute("endpoint", module_content)
+		TestGenerates.execute(module_content, "endpoint")
 
 		Module.create(HttpHandler, module_content, Macro.Env.location(__ENV__))
 	end

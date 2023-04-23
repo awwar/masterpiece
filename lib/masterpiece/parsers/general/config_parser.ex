@@ -50,12 +50,10 @@ defmodule ConfigParser do
     do: %Types.ContractGroup{
       name: "default",
       items: [
-        %Contract{name: :string, extends: :root},
-        %Contract{name: :integer, extends: :root},
-        %Contract{name: :bool, extends: :root},
-        %Contract{name: :float, extends: :root},
-        %Contract{name: :json, extends: :root},
-        %Contract{name: :numeric_string, extends: :string}
+        %Contract{name: :string, extends: :root, cast_to: [:integer, :bool, :float]},
+        %Contract{name: :integer, extends: :root, cast_to: [:string, :bool, :float]},
+        %Contract{name: :bool, extends: :root, cast_to: [:integer, :string, :float]},
+        %Contract{name: :float, extends: :root, cast_to: [:integer, :bool, :string]}
         | contracts
       ]
     }

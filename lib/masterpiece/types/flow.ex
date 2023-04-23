@@ -40,7 +40,7 @@ defimpl Protocols.Compile, for: Types.Flow do
 			def get_output, do: unquote(output_names)
 		end
 
-		TestGenerates.execute(Atom.to_string(flow_name), module_content)
+		TestGenerates.execute(module_content, Atom.to_string(flow_name))
 
 		Module.create(flow_name, module_content, Macro.Env.location(__ENV__))
 	end

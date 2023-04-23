@@ -1,51 +1,38 @@
 defmodule Types.Contract do
-    defstruct [
-        name: "",
-        extends: "",
-        settings: %{},
-        cast_from: []
-    ]
+  defstruct name: "",
+            extends: "",
+            settings: %{},
+            cast_to: []
 end
 
 defimpl Protocols.Compile, for: Types.Contract do
-    alias Types.Contract
+  alias Types.Contract
 
-    def compile( contract),
-        do: {}
-
-    def compile(%Contract{name: :float} = contract),
-        do: compile_module(contract, Contacts.Float)
-
-    def compile(%Contract{name: :integer} = contract),
-        do: compile_module(contract, Contacts.Integer)
-
-    def compile(%Contract{name: :numeric_string} = contract),
-        do: compile_module(contract, Contacts.NumericString)
-
-    def compile(%Contract{name: :string} = contract),
-        do: compile_module(contract, Contacts.String)
-
-    def compile(%Contract{name: :json} = contract),
-        do: compile_module(contract, Contacts.Json)
-
-    def compile(%Contract{extends: extends} = contract),
-        do: compile(%Contract{name: extends, extends: extends})
-
-    def compile(arg),
-        do: raise inspect(arg)
-
-    defp compile_module(%Contract{name: name, settings: settings}, compiler) do
-        name
-        |> then(
-               fn
-                   part when is_atom(part) -> Atom.to_string(part) <> "_contract_module"
-                   part when is_binary(part) -> part <> "_contract_module"
-               end
-           )
-        |> String.to_atom
-        |> Module.create(compiler.create(settings), Macro.Env.location(__ENV__))
-        |> then(fn {:module, module, _, _} -> module end)
+  def compile(%Contract{name: name, extends: extends, cast_to: cast_to}) do
+    quote do
+      def name, do: unquote(name)
+      def extends, do: unquote(extends)
+      unquote_splicing(cast_to |> Enum.map(fn cast_to_name -> compile_cast_callback(name, cast_to_name) end))
     end
+    |> TestGenerates.execute(name)
+    |> compile_module(name)
+  end
 
-    defp compile_module(_, _), do: raise "Name must be a string"
+  defp compile_cast_callback(contract_name, cast_to_name) do
+    quote do
+      def cast_to(value, unquote(cast_to_name)), do:
+        unquote(String.to_atom("#{contract_name}_#{cast_to_name}_cast_node")).execute(value)
+    end
+  end
+
+  defp compile_module(content, name) do
+    name
+    |> then(fn
+      part when is_atom(part) -> Atom.to_string(part) <> "_contract_module"
+      part when is_binary(part) -> part <> "_contract_module"
+    end)
+    |> String.to_atom()
+    |> Module.create(content, Macro.Env.location(__ENV__))
+    |> then(fn {:module, module, _, _} -> module end)
+  end
 end

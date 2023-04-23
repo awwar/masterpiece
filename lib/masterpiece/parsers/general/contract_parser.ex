@@ -8,7 +8,7 @@ defmodule ContractParser do
         name: name,
         extends: String.to_atom(pattern),
         settings: Map.get(setting, "settings", %{}),
-        cast_from: Map.get(setting, "cast_from", []),
+        cast_to: Map.get(setting, "cast_to", []),
       }
 
 	def parse(options), do: raise "Contract is invalid, got: " <> Kernel.inspect(options)
