@@ -16,7 +16,7 @@ defimpl Protocols.Compile, for: Types.Flow do
 	alias NodePatterns.OutputNode
 	import CompilerHelper
 
-	def compile(%Flow{flow_name: flow_name, nodes: nodes, tree: tree, input: input, output: output}) do
+	def compile(%Flow{flow_name: flow_name, nodes: nodes, tree: tree, input: input, output: output}, _) do
 		Enum.each(nodes, &as_ast/1)
 
 		input_names = Enum.map(input, & &1.name)

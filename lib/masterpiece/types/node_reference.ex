@@ -3,7 +3,7 @@ defmodule Types.NodeReference do
 end
 
 defimpl Protocols.Compile, for: Types.NodeReference do
-	def compile(%Types.NodeReference{name: node_name}) do
+	def compile(%Types.NodeReference{name: node_name}, _) do
 		"#{node_name}"
 		|> String.to_atom()
 	end

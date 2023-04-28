@@ -17,7 +17,7 @@ defimpl Protocols.Compile, for: Types.Endpoint do
 					route: route,
 					method: method,
 				}
-			}
+			}, _
 		) do
 		quote do
 			def call(unquote(method), unquote(route), conn) do

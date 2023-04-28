@@ -1,5 +1,5 @@
-defmodule :float_string_cast_node do
-  def execute(value), do: {true, to_string(value)}
+defmodule :json_map_cast_node do
+  def execute(value), do: {true, Jason.decode!(value)}
 
   def get_input do
     [:value]

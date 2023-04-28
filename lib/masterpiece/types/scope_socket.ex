@@ -3,7 +3,7 @@ defmodule Types.ScopeSocket do
 end
 
 defimpl Protocols.Compile, for: Types.ScopeSocket do
-    def compile(%Types.ScopeSocket{scope: scope, options: options}) do
+    def compile(%Types.ScopeSocket{scope: scope, options: options}, _) do
         node_call = scope.get_content(options)
 
         quote do

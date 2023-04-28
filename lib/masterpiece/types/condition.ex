@@ -3,7 +3,7 @@ defmodule Types.Condition do
 end
 
 defimpl Protocols.Compile, for: Types.Condition do
-	def compile(%Types.Condition{value: value}) do
+	def compile(%Types.Condition{value: value}, _) do
 		value
 	end
 end

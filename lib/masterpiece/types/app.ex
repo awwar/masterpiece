@@ -8,7 +8,7 @@ defimpl Protocols.Compile, for: Types.App do
   alias Types.App
   import CompilerHelper
 
-  def compile(%App{flows: flows, endpoints: endpoints, contracts: contracts}) do
+  def compile(%App{flows: flows, endpoints: endpoints, contracts: contracts}, _) do
     as_ast(contracts)
 
     Enum.each(flows, &as_ast/1)

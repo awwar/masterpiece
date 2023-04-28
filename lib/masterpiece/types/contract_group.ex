@@ -9,7 +9,7 @@ defimpl Protocols.Compile, for: Types.ContractGroup do
 
   import CompilerHelper
 
-  def compile(%ContractGroup{items: contracts}) do
+  def compile(%ContractGroup{items: contracts}, _) do
     g =
       Graph.new()
       |> Graph.add_edges(
@@ -38,7 +38,6 @@ defimpl Protocols.Compile, for: Types.ContractGroup do
       |> Enum.reverse()
       |> tl()
       |> Enum.reverse()
-      |> IO.inspect()
       |> Enum.map_reduce(%{}, fn i, cast_to_parent_relation ->
         {i, inheritance_map(cast_to_parent_relation, contracts, i)}
       end)

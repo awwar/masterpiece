@@ -8,11 +8,15 @@ end
 defimpl Protocols.Compile, for: Types.Contract do
   alias Types.Contract
 
-  def compile(%Contract{name: name, extends: extends, cast_to: cast_to}, %{parent_casts: parent_casts}) do
-    IO.inspect parent_casts
+  def compile(
+    %Contract{name: name, extends: extends, cast_to: cast_to, settings: settings},
+    %{parent_casts: parent_casts}
+  ) do
     quote do
+      defstruct [:value]
       def name, do: unquote(name)
       def extends, do: unquote(extends)
+      def settings, do: unquote(Macro.escape settings)
       unquote_splicing(parent_casts |> Enum.map(fn {cast_to_name, parent_name} -> compile_cast_callback(parent_name, cast_to_name) end))
       unquote_splicing(cast_to |> Enum.map(fn cast_to_name -> compile_cast_callback(name, cast_to_name) end))
     end

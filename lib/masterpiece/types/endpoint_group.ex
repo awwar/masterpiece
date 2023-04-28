@@ -9,7 +9,7 @@ defimpl Protocols.Compile, for: Types.EndpointGroup do
 	alias Types.EndpointGroup
 	import CompilerHelper
 
-	def compile(%EndpointGroup{name: :http, items: endpoints}) do
+	def compile(%EndpointGroup{name: :http, items: endpoints}, _) do
 		body = Enum.map(endpoints, &as_ast/1)
 
 		module_content = quote do
@@ -36,5 +36,5 @@ defimpl Protocols.Compile, for: Types.EndpointGroup do
 		Module.create(HttpHandler, module_content, Macro.Env.location(__ENV__))
 	end
 
-	def compile(%EndpointGroup{name: name}), do: raise "Undefined endpoint " <> inspect(name)
+	def compile(%EndpointGroup{name: name}, _), do: raise "Undefined endpoint " <> inspect(name)
 end

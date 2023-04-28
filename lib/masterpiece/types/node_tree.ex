@@ -6,7 +6,7 @@ defimpl Protocols.Compile, for: Types.NodeTree do
 	alias Types.NodeTree
 	import CompilerHelper
 
-	def compile(%NodeTree{current: current_node, next: []}) do
+	def compile(%NodeTree{current: current_node, next: []}, _) do
 		{_, _, [_ | [node_call]]} = as_ast(current_node)
 
 		quote do
@@ -14,7 +14,7 @@ defimpl Protocols.Compile, for: Types.NodeTree do
 		end
 	end
 
-	def compile(%NodeTree{current: current_node, next: next_nodes}) do
+	def compile(%NodeTree{current: current_node, next: next_nodes}, _) do
 		node_call = as_ast(current_node)
 
 		quote do
