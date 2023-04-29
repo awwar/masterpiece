@@ -1,5 +1,5 @@
 defmodule :integer_string_cast_node do
-  def execute(value), do: {true, to_string(value)}
+  def execute(%:integer_contract_module{value: value}), do: {true, to_string(value) |> :string_contract_module.constructor}
 
   def get_input do
     [:value]

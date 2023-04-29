@@ -1,7 +1,7 @@
 defmodule :string_bool_cast_node do
   def execute(""), do: {true, false}
 
-  def execute(value), do: {true, true}
+  def execute(_), do: {true, true}
 
   def get_input do
     [:value]
