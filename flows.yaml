@@ -4,18 +4,18 @@
         type: http
         method: POST
         route: /test3
-        flow: ad234235
--   type: contract
-    params:
-        name: flow_input
-        extends: map
-        settings:
-            -   name: a
-                contract:
-                    pattern: numeric_string
-            -   name: b
-                contract:
-                    pattern: numeric_string
+        flow: additional_endpoint_flow
+#-   type: contract
+#    params:
+#        name: flow_input
+#        extends: map
+#        settings:
+#            -   name: a
+#                contract:
+#                    pattern: numeric_string
+#            -   name: b
+#                contract:
+#                    pattern: numeric_string
 #-   type: contract
 #    params:
 #        name: http_code
@@ -48,7 +48,7 @@
             -   contract: http_content_type
                 name: content_type
 
-        flow_name: ad234235
+        flow_name: additional_endpoint_flow
         sockets:
             a278e9d6-29a8-4a92-8cbc-310d6c83d147:
                 type: scope
@@ -82,7 +82,7 @@
                         -   value: 200
                         -   node: number_node_1
                             path:
-                                - result
+                                - value
                         -   value: json
             55f42207-fdc5-4ac2-8b0b-c66c5891c917:
                 type: node
@@ -110,7 +110,7 @@
                         -   value: 200
                         -   node: number_node_2
                             path:
-                                - result
+                                - value
                         -   value: json
             2ae14221-ff76-4c66-872c-e90339814b8b:
                 type: node
@@ -125,7 +125,7 @@
                         -   value: 200
                         -   node: node_addition_1
                             path:
-                                - result
+                                - value
                         -   value: json
         map:
             55f42207-fdc5-4ac2-8b0b-c66c5891c917:

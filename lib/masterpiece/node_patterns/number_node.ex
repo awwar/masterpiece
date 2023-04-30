@@ -1,23 +1,11 @@
 defmodule NodePatterns.NumberNode do
 	@behaviour Behaviors.MapEntity
 
-	alias Types.NodeConfig
-
-	def get_config do
-		%NodeConfig{
-			input: %{},
-			output: %{
-				result: :number
-			},
-			option: %{
-				value: :number
-			}
-		}
-	end
-
 	def get_content(%{value: value}) do
+    result = value |> :integer_contract_module.constructor |> Macro.escape
+
 		quote do
-			def execute, do: {true, %{result: unquote(value)}}
+			def execute, do: {true, unquote(result)}
 		end
 	end
 
