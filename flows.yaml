@@ -20,18 +20,18 @@
 #    params:
 #        name: http_code
 #        extends: numeric_string
--   type: contract
-    params:
-        name: http_body
-        extends: string
-        cast_to:
-            - flow_input
--   type: contract
-    params:
-        name: http_content_type
-        extends: string
-        cast_to:
-            - http_body
+#-   type: contract
+#    params:
+#        name: http_body
+#        extends: string
+#        cast_to:
+#            - flow_input
+#-   type: contract
+#    params:
+#        name: http_content_type
+#        extends: string
+#        cast_to:
+#            - http_body
 -   type: flow
     params:
         input:

@@ -1,11 +1,11 @@
 defmodule :bool_string_cast_node do
-  def execute(value), do: {true, to_string(value)}
+  def execute(%:bool_contract_module{value: value}), do: {true, :string_contract_module.constructor to_string(value)}
 
   def get_input do
-    [:value]
+    [:bool_contract_module]
   end
 
   def get_output do
-    [:value]
+    [:string_contract_module]
   end
 end

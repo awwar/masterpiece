@@ -1,11 +1,11 @@
 defmodule :json_map_cast_node do
-  def execute(%:json_contract_module{value: value}), do: {true, Jason.decode!(value) |> :map_contract_module.constructor}
+  def execute(%:json_contract_module{value: value}), do: {true, :map_contract_module.constructor Jason.decode!(value)}
 
   def get_input do
-    [:value]
+    [:json_contract_module]
   end
 
   def get_output do
-    [:value]
+    [:map_contract_module]
   end
 end
