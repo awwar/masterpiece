@@ -22,12 +22,9 @@ defimpl Protocols.Compile, for: Types.Endpoint do
       ) do
     quote do
       def call(unquote(method), unquote(route), conn) do
-        {code, result} = unquote(flow).execute(
-          %{
-            query: Plug.Conn.Query.decode(conn.query_string),
-            body: conn.body_params
-          }
-        )
+        {code, result} = :http_connect_cm.constructor(conn)
+        |> :http_connect_cm.cast_to(:map_cm)
+        |> unquote(flow).execute
 
         %{code: response_code, content_type: content_type, data: result} = result
 
@@ -35,7 +32,7 @@ defimpl Protocols.Compile, for: Types.Endpoint do
         |> Plug.Conn.put_resp_content_type(get_content_type(content_type))
         |> Plug.Conn.send_resp()
       rescue
-        e -> Plug.Conn.resp(conn, 500, e.message)
+        e -> Plug.Conn.resp(conn, 500, IO.inspect(e).message)
              |> Plug.Conn.send_resp()
       end
     end

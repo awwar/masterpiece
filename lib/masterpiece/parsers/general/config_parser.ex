@@ -57,54 +57,63 @@ defmodule ConfigParser do
          items: contracts
        }
 
-  defp additional_configs, do: [
-                             %{
-                               "type" => "contract",
-                               "params" => %{
-                                 "name" => "string",
-                                 "extends" => "root",
-                                 "cast_to" => ["integer", "bool", "float"]
-                               }
-                             },
-                             %{
-                               "type" => "contract",
-                               "params" => %{
-                                 "name" => "integer",
-                                 "extends" => "root",
-                                 "cast_to" => ["string", "bool", "float"]
-                               }
-                             },
-                             %{
-                               "type" => "contract",
-                               "params" => %{
-                                 "name" => "bool",
-                                 "extends" => "root",
-                                 "cast_to" => ["integer", "string", "float"]
-                               }
-                             },
-                             %{
-                               "type" => "contract",
-                               "params" => %{
-                                 "name" => "float",
-                                 "extends" => "root",
-                                 "cast_to" => ["integer", "bool", "string"]
-                               }
-                             },
-                             %{
-                               "type" => "contract",
-                               "params" => %{
-                                 "name" => "json",
-                                 "extends" => "string",
-                                 "cast_to" => ["map"]
-                               }
-                             },
-                             %{
-                               "type" => "contract",
-                               "params" => %{
-                                 "name" => "map",
-                                 "extends" => "root",
-                                 "cast_to" => []
-                               }
-                             },
-  ]
+  defp additional_configs,
+       do: [
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "string",
+             "extends" => "root",
+             "cast_to" => ["integer", "bool", "float"]
+           }
+         },
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "integer",
+             "extends" => "root",
+             "cast_to" => ["string", "bool", "float"]
+           }
+         },
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "bool",
+             "extends" => "root",
+             "cast_to" => ["integer", "string", "float"]
+           }
+         },
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "float",
+             "extends" => "root",
+             "cast_to" => ["integer", "bool", "string"]
+           }
+         },
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "json",
+             "extends" => "string",
+             "cast_to" => ["map"]
+           }
+         },
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "map",
+             "extends" => "root",
+             "cast_to" => []
+           }
+         },
+         %{
+           "type" => "contract",
+           "params" => %{
+             "name" => "http_connect",
+             "extends" => "root",
+             "cast_to" => ["map"]
+           }
+         },
+       ]
 end
