@@ -1,5 +1,5 @@
 defmodule Behaviors.Contract.Parser do
-	@type t :: module
+  @type t :: module
 
-	@callback execute(term) :: term
+  @callback execute(term) :: term
 end

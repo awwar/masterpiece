@@ -3,7 +3,7 @@ import CompilerHelper
 path = "./flows.yaml"
 
 {:ok, content} = Path.join(File.cwd!(), path)
-				 |> File.read()
+                 |> File.read()
 
 "." <> extension = Path.extname(path)
 

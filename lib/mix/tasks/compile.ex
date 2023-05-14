@@ -1,23 +1,28 @@
 defmodule Mix.Tasks.Mtp.Compile do
-	use Mix.Task
-	import CompilerHelper
+  use Mix.Task
+  import CompilerHelper
 
-	def run(params) do
-		case OptionParser.parse(params, switches: [config: :string]) do
-			{[config: path], _, _} -> do_compile(path)
-			_ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
-		end
-	end
+  def run(params) do
+    case OptionParser.parse(
+           params,
+           switches: [
+             config: :string
+           ]
+         ) do
+      {[config: path], _, _} -> do_compile(path)
+      _ -> IO.warn("Path to config is empty! Use: mix mtp.compile --config <path to config>")
+    end
+  end
 
-	def do_compile(path) do
-		{:ok, content} = Path.join(File.cwd!(), path)
-						 |> File.read()
+  def do_compile(path) do
+    {:ok, content} = Path.join(File.cwd!(), path)
+                     |> File.read()
 
-		"." <> extension = Path.extname(path)
+    "." <> extension = Path.extname(path)
 
-		content
-		|> RawConfigParser.parse(extension)
-		|> ConfigParser.parse
-		|> as_ast
-	end
+    content
+    |> RawConfigParser.parse(extension)
+    |> ConfigParser.parse
+    |> as_ast
+  end
 end

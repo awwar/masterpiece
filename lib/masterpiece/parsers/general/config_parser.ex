@@ -1,16 +1,15 @@
 defmodule ConfigParser do
-  alias Types.Contract
-
   def parse(objects) when is_list(objects) do
-    Enum.map(objects, &parse(&1))
+    (objects ++ additional_configs())
+    |> Enum.map(&parse(&1))
     |> Enum.map_reduce(
-      %Types.App{},
-      fn
-        %Types.Flow{} = object, config -> reduce_item(config, object, :flows)
-        %Types.Contract{} = object, config -> reduce_item(config, object, :contracts)
-        %Types.Endpoint{} = object, config -> reduce_item(config, object, :endpoints)
-      end
-    )
+         %Types.App{},
+         fn
+           %Types.Flow{} = object, config -> reduce_item(config, object, :flows)
+           %Types.Contract{} = object, config -> reduce_item(config, object, :contracts)
+           %Types.Endpoint{} = object, config -> reduce_item(config, object, :endpoints)
+         end
+       )
     |> then(fn {_, config} -> config end)
     |> then(&Map.put(&1, :endpoints, group_endpoints(&1.endpoints)))
     |> then(&Map.put(&1, :contracts, group_contracts(&1.contracts)))
@@ -32,11 +31,17 @@ defmodule ConfigParser do
       %{},
       fn
         el, acc when is_map_key(acc, el.name) ->
-          {el,
-           Map.put(acc, el.name, %Types.EndpointGroup{
-             name: el.name,
-             items: [el | acc[el.name].items]
-           })}
+          {
+            el,
+            Map.put(
+              acc,
+              el.name,
+              %Types.EndpointGroup{
+                name: el.name,
+                items: [el | acc[el.name].items]
+              }
+            )
+          }
 
         el, acc ->
           {el, Map.put(acc, el.name, %Types.EndpointGroup{name: el.name, items: [el]})}
@@ -47,16 +52,59 @@ defmodule ConfigParser do
   end
 
   defp group_contracts(contracts),
-    do: %Types.ContractGroup{
-      name: "default",
-      items: [
-        %Contract{name: :string, extends: :root, cast_to: [:integer, :bool, :float]},
-        %Contract{name: :integer, extends: :root, cast_to: [:string, :bool, :float]},
-        %Contract{name: :bool, extends: :root, cast_to: [:integer, :string, :float]},
-        %Contract{name: :float, extends: :root, cast_to: [:integer, :bool, :string]},
-        %Contract{name: :json, extends: :string, cast_to: [:map]},
-        %Contract{name: :map, extends: :root, cast_to: []}
-        | contracts
-      ]
-    }
+       do: %Types.ContractGroup{
+         name: "default",
+         items: contracts
+       }
+
+  defp additional_configs, do: [
+                             %{
+                               "type" => "contract",
+                               "params" => %{
+                                 "name" => "string",
+                                 "extends" => "root",
+                                 "cast_to" => ["integer", "bool", "float"]
+                               }
+                             },
+                             %{
+                               "type" => "contract",
+                               "params" => %{
+                                 "name" => "integer",
+                                 "extends" => "root",
+                                 "cast_to" => ["string", "bool", "float"]
+                               }
+                             },
+                             %{
+                               "type" => "contract",
+                               "params" => %{
+                                 "name" => "bool",
+                                 "extends" => "root",
+                                 "cast_to" => ["integer", "string", "float"]
+                               }
+                             },
+                             %{
+                               "type" => "contract",
+                               "params" => %{
+                                 "name" => "float",
+                                 "extends" => "root",
+                                 "cast_to" => ["integer", "bool", "string"]
+                               }
+                             },
+                             %{
+                               "type" => "contract",
+                               "params" => %{
+                                 "name" => "json",
+                                 "extends" => "string",
+                                 "cast_to" => ["map"]
+                               }
+                             },
+                             %{
+                               "type" => "contract",
+                               "params" => %{
+                                 "name" => "map",
+                                 "extends" => "root",
+                                 "cast_to" => []
+                               }
+                             },
+  ]
 end

@@ -1,6 +1,6 @@
 defmodule Types.NamedContract do
-	defstruct [
-		name: "",
-		contract: ""
-	]
+  defstruct [
+    name: "",
+    contract: ""
+  ]
 end

@@ -1,13 +1,13 @@
-defmodule :string_bool_cast_node do
-  def execute(%:string_contract_module{value: ""}), do: {true, :bool_contract_module.constructor false}
+defmodule :string_cm_bool_cm_cast_node do
+  def execute(%:string_cm{value: ""}), do: {true, :bool_cm.constructor false}
 
-  def execute(%:string_contract_module{value: _}), do: {true, :bool_contract_module.constructor true}
+  def execute(%:string_cm{value: _}), do: {true, :bool_cm.constructor true}
 
   def get_input do
-    [:string_contract_module]
+    [:string_cm]
   end
 
   def get_output do
-    [:bool_contract_module]
+    [:bool_cm]
   end
 end

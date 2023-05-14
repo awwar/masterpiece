@@ -1,13 +1,13 @@
-defmodule :bool_integer_cast_node do
-  def execute(%:bool_contract_module{value: true}), do: {true, :integer_contract_module.constructor 1}
+defmodule :bool_cm_integer_cm_cast_node do
+  def execute(%:bool_cm{value: true}), do: {true, :integer_cm.constructor 1}
 
-  def execute(%:bool_contract_module{value: false}), do: {true, :integer_contract_module.constructor 0}
+  def execute(%:bool_cm{value: false}), do: {true, :integer_cm.constructor 0}
 
   def get_input do
-    [:bool_contract_module]
+    [:bool_cm]
   end
 
   def get_output do
-    [:integer_contract_module]
+    [:integer_cm]
   end
 end

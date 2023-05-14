@@ -1,11 +1,11 @@
-defmodule :float_integer_cast_node do
-  def execute(%:float_contract_module{value: value}), do: {true, :integer_contract_module.constructor trunc(value)}
+defmodule :float_cm_integer_cm_cast_node do
+  def execute(%:float_cm{value: value}), do: {true, :integer_cm.constructor trunc(value)}
 
   def get_input do
-    [:float_contract_module]
+    [:float_cm]
   end
 
   def get_output do
-    [:integer_contract_module]
+    [:integer_cm]
   end
 end

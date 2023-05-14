@@ -1,5 +1,5 @@
 defmodule Behaviors.Contract do
-	@type t :: module
+  @type t :: module
 
-	@callback create(settings:: term) :: term
+  @callback create(settings :: term) :: term
 end
