@@ -5,17 +5,17 @@
         method: POST
         route: /test3
         flow: additional_endpoint_flow
-#-   type: contract
-#    params:
-#        name: flow_input
-#        extends: map
-#        settings:
-#            -   name: a
-#                contract:
-#                    pattern: numeric_string
-#            -   name: b
-#                contract:
-#                    pattern: numeric_string
+-   type: contract
+    params:
+        name: flow_input
+        extends: map
+        settings:
+            -   name: a
+                contract:
+                    pattern: numeric_string
+            -   name: b
+                contract:
+                    pattern: numeric_string
 #-   type: contract
 #    params:
 #        name: http_code

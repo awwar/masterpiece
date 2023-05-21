@@ -3,6 +3,7 @@ defmodule FlowParser do
   alias Types.LogicCondition
   alias Types.LogicConnection
   alias Types.SocketReference
+  alias NodePatterns.OutputNode
 
   def parse(flows) when is_list(flows), do: Enum.map(flows, &parse(&1))
 
@@ -17,32 +18,34 @@ defmodule FlowParser do
         }
       ) do
     parsed_map = MapParser.parse(map)
-    ordered_sockets = parsed_map
-                      |> MapToGraph.execute()
-                      |> Graph.postorder
-                      |> Enum.reverse()
-                      |> Enum.map(&{&1, sockets[&1]})
-                      |> SocketParser.parse
 
     %Flow{
       flow_name: CompilerHelper.to_atom(flow_name),
       nodes: NodeParser.parse(nodes),
-      tree: List.first(ordered_sockets)
-            |> node_tree(parsed_map, ordered_sockets),
+      tree: parsed_map
+            |> MapToGraph.execute()
+            |> Graph.postorder
+            |> Enum.reverse()
+            |> Enum.map(&{&1, sockets[&1]})
+            |> SocketParser.parse
+            |> node_tree(parsed_map),
       input: NamedContractParser.parse(input),
       output: NamedContractParser.parse(output),
     }
+    |> with_output_node
   end
 
   def parse(context),
       do: raise "Unexpected layout context, got: " <> Kernel.inspect(context)
 
-  defp node_tree(%_{id: id} = node, map, sockets) do
+  defp node_tree([first_node | rest], map), do: node_tree(first_node, rest, map)
+
+  defp node_tree(%_{id: id} = node, sockets, map) do
     next_nodes = next_nodes(id, map, sockets)
 
     %Types.NodeTree{
       current: node,
-      next: Enum.map(next_nodes, fn {condition, socket} -> {condition, node_tree(socket, map, sockets)} end)
+      next: Enum.map(next_nodes, fn {condition, socket} -> {condition, node_tree(socket, sockets, map)} end)
     }
   end
 
@@ -65,4 +68,13 @@ defmodule FlowParser do
            SocketReference.to_binary(id) === SocketReference.to_binary(to_id)
          end
        )
+
+  defp with_output_node(%Flow{nodes: nodes, output: output} = flow) do
+    output_node = %Types.Node{
+      name: :output,
+      pattern: OutputNode,
+      options: output |> Enum.map(& &1.name) |> OutputNode.parse_options()
+    }
+    %Flow{flow | nodes: [output_node | nodes]}
+  end
 end
