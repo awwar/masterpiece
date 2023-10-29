@@ -4,12 +4,51 @@
         type: http
         method: POST
         route: /test3
-        flow: ad234235
+        flow: additional_endpoint_flow
+-   type: contract
+    params:
+        name: flow_input
+        extends: map
+        settings:
+            -   name: a
+                contract:
+                    pattern: numeric_string
+            -   name: b
+                contract:
+                    pattern: numeric_string
+#-   type: contract
+#    params:
+#        name: http_code
+#        extends: numeric_string
+#-   type: contract
+#    params:
+#        name: http_body
+#        extends: string
+#        cast_to:
+#            - flow_input
+#-   type: contract
+#    params:
+#        name: http_content_type
+#        extends: string
+#        cast_to:
+#            - http_body
 -   type: flow
     params:
-        input: [ body ]
-        output: [ code, data, content_type ]
-        flow_name: ad234235
+        input:
+            -   contract: flow_input
+                name: body
+
+        output:
+            -   contract: numeric_string
+                name: code
+
+            -   contract: http_body
+                name: data
+
+            -   contract: http_content_type
+                name: content_type
+
+        flow_name: additional_endpoint_flow
         sockets:
             a278e9d6-29a8-4a92-8cbc-310d6c83d147:
                 type: scope
@@ -19,7 +58,7 @@
                         condition:
                             -   variable: body
                                 path:
-                                    - body
+                                    - value
                                     - a
                             - "==="
                             - '11'
@@ -31,7 +70,7 @@
                         condition:
                             -   variable: body
                                 path:
-                                    - body
+                                    - value
                                     - b
                             - "==="
                             - '13'
@@ -43,7 +82,7 @@
                         -   value: 200
                         -   node: number_node_1
                             path:
-                                - result
+                                - value
                         -   value: json
             55f42207-fdc5-4ac2-8b0b-c66c5891c917:
                 type: node
@@ -57,11 +96,11 @@
                     input:
                         -   variable: body
                             path:
-                                - body
+                                - value
                                 - a
                         -   variable: body
                             path:
-                                - body
+                                - value
                                 - b
             7b017874-9772-497f-9032-c4e289d74ae9:
                 type: node
@@ -71,7 +110,7 @@
                         -   value: 200
                         -   node: number_node_2
                             path:
-                                - result
+                                - value
                         -   value: json
             2ae14221-ff76-4c66-872c-e90339814b8b:
                 type: node
@@ -86,7 +125,7 @@
                         -   value: 200
                         -   node: node_addition_1
                             path:
-                                - result
+                                - value
                         -   value: json
         map:
             55f42207-fdc5-4ac2-8b0b-c66c5891c917:

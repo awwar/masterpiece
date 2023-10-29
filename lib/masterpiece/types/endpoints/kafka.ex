@@ -1,7 +1,5 @@
-defmodule Types.Endpoints.Kafka do
-	defstruct [
-		name: "",
-		topic: "",
-		flow: ""
-	]
+defmodule Types.Endpoint.Kafka do
+  defstruct name: "",
+            topic: "",
+            flow: ""
 end

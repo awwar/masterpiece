@@ -1,16 +1,14 @@
 defmodule TestGenerates do
-	def execute(name, module_content) do
-		{:ok, file} = File.open(File.cwd!() <> "/generates/#{name}.ex", [:write])
+  def execute(module_content, name) do
+    Macro.to_string(
+      quote do
+        defmodule unquote(String.to_atom(to_string(name))) do
+          unquote(module_content)
+        end
+      end
+    )
+    |> SaveToGenerates.execute("#{name}.ex")
 
-		IO.puts file,
-				Macro.to_string(
-					quote do
-						defmodule unquote(String.to_atom(name)) do
-							unquote(module_content)
-						end
-					end
-				)
-
-		File.close(file)
-	end
+    module_content
+  end
 end

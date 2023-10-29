@@ -1,28 +1,20 @@
 defmodule NodePatterns.AdditionNode do
-	@behaviour Behaviors.MapEntity
+  @behaviour Behaviors.MapEntity
 
-	alias Types.NodeConfig
+  # парсер должен заранее понять какие типы данных приходят ещё на шаге компиляции
+  def get_content(_) do
+    quote do
+      def execute(%_{value: a}, %_{value: b}) when is_number(a) and is_number(b),
+        do: {true, number_factory(a + b)}
 
-	def get_config do
-		%NodeConfig{
-			input: %{
-				a: :number,
-				b: :number
-			},
-			output: %{
-				result: :number
-			}
-		}
-	end
+      def execute(a, b), do: execute(NumberParser.parse(a), NumberParser.parse(b))
 
-	def get_content(_) do
-		quote do
-			def execute(a, b) when is_number(a) and is_number(b), do: {true, %{result: a + b}}
-			def execute(a, b), do: execute(NumberParser.parse(a), NumberParser.parse(b))
-		end
-	end
+      defp number_factory(a) when is_float(a), do: :float_cm.constructor(a)
+      defp number_factory(a), do: :integer_cm.constructor(a)
+    end
+  end
 
-	def parse_options(_) do
-		%{}
-	end
+  def parse_options(_) do
+    %{}
+  end
 end

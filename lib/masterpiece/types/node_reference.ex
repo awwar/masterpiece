@@ -1,9 +1,10 @@
 defmodule Types.NodeReference do
-	defstruct [:name]
+  defstruct [:name]
+end
 
-	def from_binary(name) when is_binary(name), do: %Types.NodeReference{name: name}
-
-	def to_atom(%Types.NodeReference{name: name}) when is_atom(name), do: name
-
-	def to_atom(%Types.NodeReference{name: name}) when is_binary(name), do: String.to_atom(name)
+defimpl Protocols.Compile, for: Types.NodeReference do
+  def compile(%Types.NodeReference{name: node_name}, _) do
+    "#{node_name}"
+    |> String.to_atom()
+  end
 end
