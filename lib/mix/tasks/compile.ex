@@ -15,14 +15,15 @@ defmodule Mix.Tasks.Mtp.Compile do
   end
 
   def do_compile(path) do
-    {:ok, content} = Path.join(File.cwd!(), path)
-                     |> File.read()
+    {:ok, content} =
+      Path.join(File.cwd!(), path)
+      |> File.read()
 
     "." <> extension = Path.extname(path)
 
     content
     |> RawConfigParser.parse(extension)
-    |> ConfigParser.parse
+    |> ConfigParser.parse()
     |> as_ast
   end
 end

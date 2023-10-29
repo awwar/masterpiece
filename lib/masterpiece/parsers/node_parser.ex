@@ -5,9 +5,10 @@ defmodule NodeParser do
          name,
          %{
            "pattern" => node_pattern_name,
-           "option" => options,
+           "option" => options
          }
-       ) when is_map(options) do
+       )
+       when is_map(options) do
     node_pattern = NodePatternFactory.create(node_pattern_name)
 
     %Types.Node{
@@ -18,5 +19,5 @@ defmodule NodeParser do
   end
 
   defp do_parse(name, context),
-       do: raise "Unexpected node`s #{name} context, got: " <> Kernel.inspect(context)
+    do: raise("Unexpected node`s #{name} context, got: " <> Kernel.inspect(context))
 end

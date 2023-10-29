@@ -1,8 +1,6 @@
 defmodule Types.NamedContract do
-  defstruct [
-    name: "",
-    contract: ""
-  ]
+  defstruct name: "",
+            contract: ""
 
   defimpl Protocols.Compile do
     def compile(%Types.NamedContract{name: name, contract: contract}, _) do

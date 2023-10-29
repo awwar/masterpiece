@@ -4,7 +4,9 @@ defmodule NodePatterns.AdditionNode do
   # парсер должен заранее понять какие типы данных приходят ещё на шаге компиляции
   def get_content(_) do
     quote do
-      def execute(%_{value: a}, %_{value: b}) when is_number(a) and is_number(b), do: {true, number_factory(a + b)}
+      def execute(%_{value: a}, %_{value: b}) when is_number(a) and is_number(b),
+        do: {true, number_factory(a + b)}
+
       def execute(a, b), do: execute(NumberParser.parse(a), NumberParser.parse(b))
 
       defp number_factory(a) when is_float(a), do: :float_cm.constructor(a)

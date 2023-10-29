@@ -1,6 +1,6 @@
 defmodule NodeReferenceParser do
   def parse(name) do
-    %Types.NodeReference {
+    %Types.NodeReference{
       name: CompilerHelper.to_atom(name)
     }
   end

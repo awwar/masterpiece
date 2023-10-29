@@ -3,7 +3,7 @@ defmodule SaveToGenerates do
     File.open(
       File.cwd!() <> "/generates/#{name}",
       [:write],
-      fn file -> IO.puts file, content end
+      fn file -> IO.puts(file, content) end
     )
   end
 end

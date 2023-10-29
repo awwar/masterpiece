@@ -1,11 +1,9 @@
 defmodule ScopePatterns.IfScope do
   import CompilerHelper
 
-  def get_content(
-        %{
-          condition: condition,
-        }
-      ) do
+  def get_content(%{
+        condition: condition
+      }) do
     as_ast(condition)
   end
 

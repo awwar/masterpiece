@@ -1,5 +1,4 @@
 defmodule NodeInputParser do
-
   def parse(%{"variable" => variable, "path" => path}) do
     %Types.NodeInput{
       type: :object,
@@ -21,7 +20,7 @@ defmodule NodeInputParser do
   end
 
   def parse(context),
-      do: raise "Unexpected input`s context, got: " <> Kernel.inspect(context)
+    do: raise("Unexpected input`s context, got: " <> Kernel.inspect(context))
 
   defp map_path([]), do: []
   defp map_path([key | rest]), do: [CompilerHelper.to_atom(key)] ++ rest
